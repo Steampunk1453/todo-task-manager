@@ -1,0 +1,11 @@
+version: '2'
+services:
+  todotaskmanager-postgresql:
+    image: postgres:12.1
+    # volumes:
+    #     - ~/volumes/jhipster/ToDoTaskManager/postgresql/:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=ToDoTaskManager
+      - POSTGRES_PASSWORD=
+    ports:
+      - 5432:5432
