@@ -1,0 +1,11 @@
+id;title;genre;platform;platform_url;start_date;deadline;jhi_check;user_id
+1;The Wire;Drama;Netflix;https://www.netflix.com/es/;2020-05-10;2020-05-09;1;4
+2;Breaking Bad;Drama;Netflix;https://www.netflix.com/es/;2020-05-10;2020-05-10;0;4
+3;Game of Thrones;Drama;HBO;https://es.hboespana.com/;2020-05-10;2020-05-10;1;4
+4;The Soprano;Comedy;HBO;https://es.hboespana.com/;2020-05-09;2020-05-10;1;4
+5;True Detective;Thriller;HBO;https://es.hboespana.com/;2020-05-10;2020-05-10;0;4
+6;Roma Criminal;Thriller;HBO;https://es.hboespana.com/;2020-05-10;2020-05-10;0;4
+7;Black Mirror;Drama;Netflix;https://www.netflix.com/es/;2020-05-10;2020-05-10;0;4
+8;Fargo;Drama;Netflix;https://es.hboespana.com/;2020-05-10;2020-05-10;1;4
+9;Friends;Comedy;Netflix;https://www.netflix.com/es/;2020-05-09;2020-05-10;1;4
+10;Mr Robot;Drama;Movistar+;http://ver.movistarplus.es/?nv=2;2020-05-10;2020-05-10;0;4
