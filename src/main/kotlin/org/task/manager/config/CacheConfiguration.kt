@@ -45,6 +45,7 @@ class CacheConfiguration(jHipsterProperties: JHipsterProperties) {
             createCache(cm, org.task.manager.domain.User::class.java.name)
             createCache(cm, org.task.manager.domain.Authority::class.java.name)
             createCache(cm, org.task.manager.domain.User::class.java.name + ".authorities")
+            createCache(cm, org.task.manager.domain.Audiovisual::class.java.name)
             // jhipster-needle-ehcache-add-entry
         }
     }
