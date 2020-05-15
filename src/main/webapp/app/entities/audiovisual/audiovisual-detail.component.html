@@ -1,0 +1,58 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="audiovisual">
+            <h2><span jhiTranslate="toDoTaskManagerApp.audiovisual.detail.title"></span> {{ audiovisual.title }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="toDoTaskManagerApp.audiovisual.title">Title</span></dt>
+                <dd>
+                    <span>{{ audiovisual.title }}</span>
+                </dd>
+                <dt><span jhiTranslate="toDoTaskManagerApp.audiovisual.genre">Genre</span></dt>
+                <dd>
+                    <span>{{ audiovisual.genre }}</span>
+                </dd>
+                <dt><span jhiTranslate="toDoTaskManagerApp.audiovisual.platform">Platform</span></dt>
+                <dd>
+                    <span>{{ audiovisual.platform }}</span>
+                </dd>
+                <dt><span jhiTranslate="toDoTaskManagerApp.audiovisual.platformUrl">Platform Url</span></dt>
+                <dd>
+                    <span>{{ audiovisual.platformUrl }}</span>
+                </dd>
+                <dt><span jhiTranslate="toDoTaskManagerApp.audiovisual.startDate">Start Date</span></dt>
+                <dd>
+                    <span>{{ audiovisual.startDate | date:'mediumDate' }}</span>
+                </dd>
+                <dt><span jhiTranslate="toDoTaskManagerApp.audiovisual.deadline">Deadline</span></dt>
+                <dd>
+                    <span>{{ audiovisual.deadline | date:'mediumDate' }}</span>
+                </dd>
+                <dt><span jhiTranslate="toDoTaskManagerApp.audiovisual.check">Check</span></dt>
+                <dd>
+                    <fa-icon [icon]="audiovisual.check ? 'check' : 'times'" aria-hidden="true" class="{{audiovisual.check ? 'text-success' : 'text-danger'}}"></fa-icon>
+                </dd>
+                <dt *jhiHasAnyAuthority="'ROLE_ADMIN'"><span jhiTranslate="toDoTaskManagerApp.audiovisual.user">User</span></dt>
+                <dd *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                    {{ audiovisual.user?.login }}
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/audiovisual', audiovisual.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

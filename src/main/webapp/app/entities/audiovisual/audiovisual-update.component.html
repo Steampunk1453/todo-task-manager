@@ -1,0 +1,103 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-audiovisual-heading" jhiTranslate="toDoTaskManagerApp.audiovisual.home.createOrEditLabel">Create or edit a Audiovisual</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="toDoTaskManagerApp.audiovisual.title" for="field_title">Title</label>
+                    <input type="text" class="form-control" name="title" id="field_title"
+                           formControlName="title"/>
+                    <div *ngIf="editForm.get('title')!.invalid && (editForm.get('title')!.dirty || editForm.get('title')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('title')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="toDoTaskManagerApp.audiovisual.genre" for="field_genre">Genre</label>
+                    <input type="text" class="form-control" name="genre" id="field_genre"
+                           formControlName="genre"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="toDoTaskManagerApp.audiovisual.platform" for="field_platform">Platform</label>
+                    <input type="text" class="form-control" name="platform" id="field_platform"
+                           formControlName="platform"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="toDoTaskManagerApp.audiovisual.platformUrl" for="field_platformUrl">Platform Url</label>
+                    <input type="text" class="form-control" name="platformUrl" id="field_platformUrl"
+                           formControlName="platformUrl"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="toDoTaskManagerApp.audiovisual.startDate" for="field_startDate">Start Date</label>
+                    <div class="input-group">
+                        <input id="field_startDate" type="text" class="form-control" name="startDate" ngbDatepicker #startDateDp="ngbDatepicker" formControlName="startDate"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="startDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div *ngIf="editForm.get('startDate')!.invalid && (editForm.get('startDate')!.dirty || editForm.get('startDate')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('startDate')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="toDoTaskManagerApp.audiovisual.deadline" for="field_deadline">Deadline</label>
+                    <div class="input-group">
+                        <input id="field_deadline" type="text" class="form-control" name="deadline" ngbDatepicker #deadlineDp="ngbDatepicker" formControlName="deadline"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="deadlineDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div *ngIf="editForm.get('deadline')!.invalid && (editForm.get('deadline')!.dirty || editForm.get('deadline')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('deadline')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-check">
+                    <label class="form-check-label" for="field_check"></label>
+                    <input type="checkbox" class="form-check-input" name="check" id="field_check"
+                           formControlName="check"/>
+                    <span jhiTranslate="toDoTaskManagerApp.audiovisual.check">Done</span>
+                </div>
+            <br/>
+                <div class="form-group" *jhiHasAnyAuthority="'ROLE_ADMIN'">>
+                    <label class="form-control-label" jhiTranslate="toDoTaskManagerApp.audiovisual.user" for="field_user">User</label>
+                    <select class="form-control" id="field_user" name="user" formControlName="user">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="userOption.id === editForm.get('user')!.value?.id ? editForm.get('user')!.value : userOption" *ngFor="let userOption of users; trackBy: trackById">{{ userOption.login }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
