@@ -24,10 +24,13 @@
             <column name="platform" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="start_date" type="date">
+            <column name="platform_url" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="start_date" type="datetime">
                 <constraints nullable="false" />
             </column>
-            <column name="deadline" type="date">
+            <column name="deadline" type="datetime">
                 <constraints nullable="false" />
             </column>
             <column name="jhi_check" type="integer">

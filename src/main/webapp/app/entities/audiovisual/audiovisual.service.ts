@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 
-import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IAudiovisual } from 'app/shared/model/audiovisual.model';
@@ -51,8 +50,8 @@ export class AudiovisualService {
 
   protected convertDateFromClient(audiovisual: IAudiovisual): IAudiovisual {
     const copy: IAudiovisual = Object.assign({}, audiovisual, {
-      startDate: audiovisual.startDate && audiovisual.startDate.isValid() ? audiovisual.startDate.format(DATE_FORMAT) : undefined,
-      deadline: audiovisual.deadline && audiovisual.deadline.isValid() ? audiovisual.deadline.format(DATE_FORMAT) : undefined
+      startDate: audiovisual.startDate && audiovisual.startDate.isValid() ? audiovisual.startDate.toJSON() : undefined,
+      deadline: audiovisual.deadline && audiovisual.deadline.isValid() ? audiovisual.deadline.toJSON() : undefined
     });
     return copy;
   }

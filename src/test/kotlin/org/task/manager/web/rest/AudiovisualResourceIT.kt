@@ -1,7 +1,7 @@
 package org.task.manager.web.rest
 
-import java.time.LocalDate
-import java.time.ZoneId
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 import javax.persistence.EntityManager
 import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
@@ -232,6 +232,7 @@ class AudiovisualResourceIT {
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE))
             .andExpect(jsonPath("$.genre").value(DEFAULT_GENRE))
             .andExpect(jsonPath("$.platform").value(DEFAULT_PLATFORM))
+            .andExpect(jsonPath("$.platformUrl").value(DEFAULT_PLATFORM_URL))
             .andExpect(jsonPath("$.startDate").value(DEFAULT_START_DATE.toString()))
             .andExpect(jsonPath("$.deadline").value(DEFAULT_DEADLINE.toString()))
             .andExpect(jsonPath("$.check").value(DEFAULT_CHECK))
@@ -340,11 +341,11 @@ class AudiovisualResourceIT {
         private const val DEFAULT_PLATFORM_URL = "AAAAAAAAAA"
         private const val UPDATED_PLATFORM_URL = "BBBBBBBBBB"
 
-        private val DEFAULT_START_DATE: LocalDate = LocalDate.ofEpochDay(0L)
-        private val UPDATED_START_DATE: LocalDate = LocalDate.now(ZoneId.systemDefault())
+        private val DEFAULT_START_DATE: Instant = Instant.ofEpochMilli(0L)
+        private val UPDATED_START_DATE: Instant = Instant.now().truncatedTo(ChronoUnit.MILLIS)
 
-        private val DEFAULT_DEADLINE: LocalDate = LocalDate.ofEpochDay(0L)
-        private val UPDATED_DEADLINE: LocalDate = LocalDate.now(ZoneId.systemDefault())
+        private val DEFAULT_DEADLINE: Instant = Instant.ofEpochMilli(0L)
+        private val UPDATED_DEADLINE: Instant = Instant.now().truncatedTo(ChronoUnit.MILLIS)
 
         private const val DEFAULT_CHECK: Int = 1
         private const val UPDATED_CHECK: Int = 2

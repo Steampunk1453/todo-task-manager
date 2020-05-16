@@ -2,7 +2,7 @@ package org.task.manager.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import java.io.Serializable
-import java.time.LocalDate
+import java.time.Instant
 import javax.persistence.*
 import javax.validation.constraints.*
 import org.hibernate.annotations.Cache
@@ -34,11 +34,11 @@ data class Audiovisual(
 
     @get: NotNull
     @Column(name = "start_date", nullable = false)
-    var startDate: LocalDate? = null,
+    var startDate: Instant? = null,
 
     @get: NotNull
     @Column(name = "deadline", nullable = false)
-    var deadline: LocalDate? = null,
+    var deadline: Instant? = null,
 
     @Column(name = "jhi_check")
     var check: Int? = null,

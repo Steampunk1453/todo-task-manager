@@ -4,6 +4,8 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import * as moment from 'moment';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
 import { IAudiovisual, Audiovisual } from 'app/shared/model/audiovisual.model';
 import { AudiovisualService } from './audiovisual.service';
@@ -17,8 +19,6 @@ import { UserService } from 'app/core/user/user.service';
 export class AudiovisualUpdateComponent implements OnInit {
   isSaving = false;
   users: IUser[] = [];
-  startDateDp: any;
-  deadlineDp: any;
 
   editForm = this.fb.group({
     id: [],
@@ -41,6 +41,12 @@ export class AudiovisualUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ audiovisual }) => {
+      if (!audiovisual.id) {
+        const today = moment().startOf('day');
+        audiovisual.startDate = today;
+        audiovisual.deadline = today;
+      }
+
       this.updateForm(audiovisual);
 
       this.userService.query().subscribe((res: HttpResponse<IUser[]>) => (this.users = res.body || []));
@@ -54,8 +60,8 @@ export class AudiovisualUpdateComponent implements OnInit {
       genre: audiovisual.genre,
       platform: audiovisual.platform,
       platformUrl: audiovisual.platformUrl,
-      startDate: audiovisual.startDate,
-      deadline: audiovisual.deadline,
+      startDate: audiovisual.startDate ? audiovisual.startDate.format(DATE_TIME_FORMAT) : null,
+      deadline: audiovisual.deadline ? audiovisual.deadline.format(DATE_TIME_FORMAT) : null,
       check: audiovisual.check,
       user: audiovisual.user
     });
@@ -85,8 +91,8 @@ export class AudiovisualUpdateComponent implements OnInit {
       genre: this.editForm.get(['genre'])!.value,
       platform: this.editForm.get(['platform'])!.value,
       platformUrl: this.editForm.get(['platformUrl'])!.value,
-      startDate: this.editForm.get(['startDate'])!.value,
-      deadline: this.editForm.get(['deadline'])!.value,
+      startDate: this.editForm.get(['startDate'])!.value ? moment(this.editForm.get(['startDate'])!.value, DATE_TIME_FORMAT) : undefined,
+      deadline: this.editForm.get(['deadline'])!.value ? moment(this.editForm.get(['deadline'])!.value, DATE_TIME_FORMAT) : undefined,
       check: this.editForm.get(['check'])!.value,
       user: this.editForm.get(['user'])!.value
     };

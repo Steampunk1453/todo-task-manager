@@ -1,7 +1,7 @@
 import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import * as moment from 'moment';
-import { DATE_FORMAT } from 'app/shared/constants/input.constants';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { AudiovisualService } from 'app/entities/audiovisual/audiovisual.service';
 import { IAudiovisual, Audiovisual } from 'app/shared/model/audiovisual.model';
 
@@ -31,8 +31,8 @@ describe('Service Tests', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
-            startDate: currentDate.format(DATE_FORMAT),
-            deadline: currentDate.format(DATE_FORMAT)
+            startDate: currentDate.format(DATE_TIME_FORMAT),
+            deadline: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
@@ -48,8 +48,8 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            startDate: currentDate.format(DATE_FORMAT),
-            deadline: currentDate.format(DATE_FORMAT)
+            startDate: currentDate.format(DATE_TIME_FORMAT),
+            deadline: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
@@ -76,8 +76,8 @@ describe('Service Tests', () => {
             genre: 'BBBBBB',
             platform: 'BBBBBB',
             platformUrl: 'BBBBBB',
-            startDate: currentDate.format(DATE_FORMAT),
-            deadline: currentDate.format(DATE_FORMAT),
+            startDate: currentDate.format(DATE_TIME_FORMAT),
+            deadline: currentDate.format(DATE_TIME_FORMAT),
             check: 1
           },
           elemDefault
@@ -105,8 +105,8 @@ describe('Service Tests', () => {
             genre: 'BBBBBB',
             platform: 'BBBBBB',
             platformUrl: 'BBBBBB',
-            startDate: currentDate.format(DATE_FORMAT),
-            deadline: currentDate.format(DATE_FORMAT),
+            startDate: currentDate.format(DATE_TIME_FORMAT),
+            deadline: currentDate.format(DATE_TIME_FORMAT),
             check: 1
           },
           elemDefault

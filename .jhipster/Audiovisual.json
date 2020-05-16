@@ -33,14 +33,14 @@
         },
         {
             "fieldName": "startDate",
-            "fieldType": "LocalDate",
+            "fieldType": "Instant",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
             "fieldName": "deadline",
-            "fieldType": "LocalDate",
+            "fieldType": "Instant",
             "fieldValidateRules": [
                 "required"
             ]
