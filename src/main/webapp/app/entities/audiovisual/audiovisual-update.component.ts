@@ -19,6 +19,11 @@ import { UserService } from 'app/core/user/user.service';
 export class AudiovisualUpdateComponent implements OnInit {
   isSaving = false;
   users: IUser[] = [];
+  titles: string[] = [];
+  genres: string[] = [];
+  platforms: string[] = [];
+  platformUrls: any[] = [];
+  mapUrls: any;
 
   editForm = this.fb.group({
     id: [],
@@ -46,10 +51,32 @@ export class AudiovisualUpdateComponent implements OnInit {
         audiovisual.startDate = today;
         audiovisual.deadline = today;
       }
-
       this.updateForm(audiovisual);
 
       this.userService.query().subscribe((res: HttpResponse<IUser[]>) => (this.users = res.body || []));
+    });
+    this.audiovisualService.titles().subscribe(titles => {
+      this.titles = titles;
+    });
+
+    this.audiovisualService.genres().subscribe(genres => {
+      if (genres) {
+        this.genres = genres.map(item => {
+          return item['name'];
+        });
+      }
+    });
+
+    this.audiovisualService.platforms().subscribe(platforms => {
+      if (platforms) {
+        this.platformUrls = platforms.map(item => {
+          return { name: item['name'], url: item['url'] };
+        });
+        this.mapUrls = new Map(this.platformUrls.map(i => [i.name, i.url]));
+        this.platforms = platforms.map(item => {
+          return item['name'];
+        });
+      }
     });
   }
 
@@ -90,7 +117,7 @@ export class AudiovisualUpdateComponent implements OnInit {
       title: this.editForm.get(['title'])!.value,
       genre: this.editForm.get(['genre'])!.value,
       platform: this.editForm.get(['platform'])!.value,
-      platformUrl: this.editForm.get(['platformUrl'])!.value,
+      platformUrl: this.mapUrls.get(this.editForm.get(['platform'])!.value),
       startDate: this.editForm.get(['startDate'])!.value ? moment(this.editForm.get(['startDate'])!.value, DATE_TIME_FORMAT) : undefined,
       deadline: this.editForm.get(['deadline'])!.value ? moment(this.editForm.get(['deadline'])!.value, DATE_TIME_FORMAT) : undefined,
       check: this.editForm.get(['check'])!.value,

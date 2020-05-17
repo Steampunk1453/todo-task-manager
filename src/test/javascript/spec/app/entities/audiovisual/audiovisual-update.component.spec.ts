@@ -31,7 +31,7 @@ describe('Component Tests', () => {
     describe('save', () => {
       it('Should call update service on save for existing entity', fakeAsync(() => {
         // GIVEN
-        const entity = new Audiovisual(123);
+        const entity = new Audiovisual(123, undefined, undefined, undefined, undefined, undefined, undefined, 0, undefined);
         spyOn(service, 'update').and.returnValue(of(new HttpResponse({ body: entity })));
         comp.updateForm(entity);
         // WHEN
@@ -45,7 +45,7 @@ describe('Component Tests', () => {
 
       it('Should call create service on save for new entity', fakeAsync(() => {
         // GIVEN
-        const entity = new Audiovisual();
+        const entity = new Audiovisual(undefined, undefined, undefined, undefined, undefined, undefined, undefined, 0, undefined);
         spyOn(service, 'create').and.returnValue(of(new HttpResponse({ body: entity })));
         comp.updateForm(entity);
         // WHEN

@@ -48,6 +48,18 @@ export class AudiovisualService {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
+  titles(): Observable<string[]> {
+    return this.http.get<string[]>(SERVER_API_URL + 'api/titles');
+  }
+
+  genres(): Observable<string[]> {
+    return this.http.get<string[]>(SERVER_API_URL + 'api/genres');
+  }
+
+  platforms(): Observable<string[]> {
+    return this.http.get<string[]>(SERVER_API_URL + 'api/platforms');
+  }
+
   protected convertDateFromClient(audiovisual: IAudiovisual): IAudiovisual {
     const copy: IAudiovisual = Object.assign({}, audiovisual, {
       startDate: audiovisual.startDate && audiovisual.startDate.isValid() ? audiovisual.startDate.toJSON() : undefined,
