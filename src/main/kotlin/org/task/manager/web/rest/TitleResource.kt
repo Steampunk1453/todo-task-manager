@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import org.task.manager.domain.Title
@@ -29,7 +28,6 @@ private const val ENTITY_NAME = "title"
  * REST controller for managing [org.task.manager.domain.Title].
  */
 @RestController
-@RequestMapping("/management")
 @Transactional
 class TitleResource(
     private val titleRepository: TitleRepository
@@ -46,7 +44,7 @@ class TitleResource(
      * @return the [ResponseEntity] with status `201 (Created)` and with body the new title, or with status `400 (Bad Request)` if the title has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/titles")
+    @PostMapping("/management/titles")
     fun createTitle(@Valid @RequestBody title: Title): ResponseEntity<Title> {
         log.debug("REST request to save Title : {}", title)
         if (title.id != null) {
@@ -56,7 +54,7 @@ class TitleResource(
             )
         }
         val result = titleRepository.save(title)
-        return ResponseEntity.created(URI("/api/titles/" + result.id))
+        return ResponseEntity.created(URI("/management/titles/" + result.id))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.id.toString()))
             .body(result)
     }
@@ -70,7 +68,7 @@ class TitleResource(
      * or with status `500 (Internal Server Error)` if the title couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/titles")
+    @PutMapping("/management/titles")
     fun updateTitle(@Valid @RequestBody title: Title): ResponseEntity<Title> {
         log.debug("REST request to update Title : {}", title)
         if (title.id == null) {
@@ -93,7 +91,7 @@ class TitleResource(
 
      * @return the [ResponseEntity] with status `200 (OK)` and the list of titles in body.
      */
-    @GetMapping("/titles")
+    @GetMapping("api/titles")
     fun getAllTitles(
         pageable: Pageable
     ): ResponseEntity<MutableList<Title>> {
@@ -109,7 +107,7 @@ class TitleResource(
      * @param id the id of the title to retrieve.
      * @return the [ResponseEntity] with status `200 (OK)` and with body the title, or with status `404 (Not Found)`.
      */
-    @GetMapping("/titles/{id}")
+    @GetMapping("api/titles/{id}")
     fun getTitle(@PathVariable id: Long): ResponseEntity<Title> {
         log.debug("REST request to get Title : {}", id)
         val title = titleRepository.findById(id)
@@ -121,7 +119,7 @@ class TitleResource(
      * @param id the id of the title to delete.
      * @return the [ResponseEntity] with status `204 (NO_CONTENT)`.
      */
-    @DeleteMapping("/titles/{id}")
+    @DeleteMapping("/management/titles/{id}")
     fun deleteTitle(@PathVariable id: Long): ResponseEntity<Void> {
         log.debug("REST request to delete Title : {}", id)
 

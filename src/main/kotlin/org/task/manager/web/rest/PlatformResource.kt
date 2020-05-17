@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.task.manager.domain.Platform
 import org.task.manager.repository.PlatformRepository
@@ -26,7 +25,6 @@ private const val ENTITY_NAME = "platform"
  * REST controller for managing [org.task.manager.domain.Platform].
  */
 @RestController
-@RequestMapping("/management")
 @Transactional
 class PlatformResource(
     private val platformRepository: PlatformRepository
@@ -43,7 +41,7 @@ class PlatformResource(
      * @return the [ResponseEntity] with status `201 (Created)` and with body the new platform, or with status `400 (Bad Request)` if the platform has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/platforms")
+    @PostMapping("/management/platforms")
     fun createPlatform(@Valid @RequestBody platform: Platform): ResponseEntity<Platform> {
         log.debug("REST request to save Platform : {}", platform)
         if (platform.id != null) {
@@ -53,7 +51,7 @@ class PlatformResource(
             )
         }
         val result = platformRepository.save(platform)
-        return ResponseEntity.created(URI("/api/platforms/" + result.id))
+        return ResponseEntity.created(URI("/management/platforms/" + result.id))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.id.toString()))
             .body(result)
     }
@@ -67,7 +65,7 @@ class PlatformResource(
      * or with status `500 (Internal Server Error)` if the platform couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/platforms")
+    @PutMapping("/management/platforms")
     fun updatePlatform(@Valid @RequestBody platform: Platform): ResponseEntity<Platform> {
         log.debug("REST request to update Platform : {}", platform)
         if (platform.id == null) {
@@ -89,7 +87,7 @@ class PlatformResource(
 
      * @return the [ResponseEntity] with status `200 (OK)` and the list of platforms in body.
      */
-    @GetMapping("/platforms")
+    @GetMapping("api/platforms")
     fun getAllPlatforms(): MutableList<Platform> {
         log.debug("REST request to get all Platforms")
         return platformRepository.findAll()
@@ -101,7 +99,7 @@ class PlatformResource(
      * @param id the id of the platform to retrieve.
      * @return the [ResponseEntity] with status `200 (OK)` and with body the platform, or with status `404 (Not Found)`.
      */
-    @GetMapping("/platforms/{id}")
+    @GetMapping("api/platforms/{id}")
     fun getPlatform(@PathVariable id: Long): ResponseEntity<Platform> {
         log.debug("REST request to get Platform : {}", id)
         val platform = platformRepository.findById(id)
@@ -113,7 +111,7 @@ class PlatformResource(
      * @param id the id of the platform to delete.
      * @return the [ResponseEntity] with status `204 (NO_CONTENT)`.
      */
-    @DeleteMapping("/platforms/{id}")
+    @DeleteMapping("/management/platforms/{id}")
     fun deletePlatform(@PathVariable id: Long): ResponseEntity<Void> {
         log.debug("REST request to delete Platform : {}", id)
 

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.task.manager.domain.Genre
 import org.task.manager.repository.GenreRepository
@@ -26,7 +25,6 @@ private const val ENTITY_NAME = "genre"
  * REST controller for managing [org.task.manager.domain.Genre].
  */
 @RestController
-@RequestMapping("/management")
 @Transactional
 class GenreResource(
     private val genreRepository: GenreRepository
@@ -43,7 +41,7 @@ class GenreResource(
      * @return the [ResponseEntity] with status `201 (Created)` and with body the new genre, or with status `400 (Bad Request)` if the genre has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/genres")
+    @PostMapping("/management/genres")
     fun createGenre(@Valid @RequestBody genre: Genre): ResponseEntity<Genre> {
         log.debug("REST request to save Genre : {}", genre)
         if (genre.id != null) {
@@ -53,7 +51,7 @@ class GenreResource(
             )
         }
         val result = genreRepository.save(genre)
-        return ResponseEntity.created(URI("/api/genres/" + result.id))
+        return ResponseEntity.created(URI("/management/genres/" + result.id))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.id.toString()))
             .body(result)
     }
@@ -67,7 +65,7 @@ class GenreResource(
      * or with status `500 (Internal Server Error)` if the genre couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/genres")
+    @PutMapping("/management/genres")
     fun updateGenre(@Valid @RequestBody genre: Genre): ResponseEntity<Genre> {
         log.debug("REST request to update Genre : {}", genre)
         if (genre.id == null) {
@@ -89,7 +87,7 @@ class GenreResource(
 
      * @return the [ResponseEntity] with status `200 (OK)` and the list of genres in body.
      */
-    @GetMapping("/genres")
+    @GetMapping("api/genres")
     fun getAllGenres(): MutableList<Genre> {
         log.debug("REST request to get all Genres")
         return genreRepository.findAll()
@@ -101,7 +99,7 @@ class GenreResource(
      * @param id the id of the genre to retrieve.
      * @return the [ResponseEntity] with status `200 (OK)` and with body the genre, or with status `404 (Not Found)`.
      */
-    @GetMapping("/genres/{id}")
+    @GetMapping("api/genres/{id}")
     fun getGenre(@PathVariable id: Long): ResponseEntity<Genre> {
         log.debug("REST request to get Genre : {}", id)
         val genre = genreRepository.findById(id)
@@ -113,7 +111,7 @@ class GenreResource(
      * @param id the id of the genre to delete.
      * @return the [ResponseEntity] with status `204 (NO_CONTENT)`.
      */
-    @DeleteMapping("/genres/{id}")
+    @DeleteMapping("/management/genres/{id}")
     fun deleteGenre(@PathVariable id: Long): ResponseEntity<Void> {
         log.debug("REST request to delete Genre : {}", id)
 
