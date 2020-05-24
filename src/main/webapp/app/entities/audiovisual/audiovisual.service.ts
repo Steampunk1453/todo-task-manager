@@ -13,7 +13,7 @@ type EntityArrayResponseType = HttpResponse<IAudiovisual[]>;
 
 @Injectable({ providedIn: 'root' })
 export class AudiovisualService {
-  public resourceUrl = SERVER_API_URL + 'api/audiovisuals';
+  resourceUrl = SERVER_API_URL + 'api/audiovisuals';
 
   constructor(protected http: HttpClient) {}
 
