@@ -55,8 +55,8 @@ export class AudiovisualUpdateComponent implements OnInit {
       this.userService.query().subscribe((res: HttpResponse<IUser[]>) => (this.users = res.body || []));
     });
     this.audiovisualService.titles().subscribe(titles => {
-      this.titles = titles;
       if (titles) {
+        this.titles = titles;
         this.titles = titles.map(item => {
           return item['name'];
         });
