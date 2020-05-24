@@ -83,7 +83,7 @@ class PlatformResourceIT {
 
         // Create the Platform
         restPlatformMockMvc.perform(
-            post("/api/platforms")
+            post("/management/platforms")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(platform))
         ).andExpect(status().isCreated)
@@ -106,7 +106,7 @@ class PlatformResourceIT {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restPlatformMockMvc.perform(
-            post("/api/platforms")
+            post("/management/platforms")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(platform))
         ).andExpect(status().isBadRequest)
@@ -126,7 +126,7 @@ class PlatformResourceIT {
         // Create the Platform, which fails.
 
         restPlatformMockMvc.perform(
-            post("/api/platforms")
+            post("/management/platforms")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(platform))
         ).andExpect(status().isBadRequest)
@@ -145,7 +145,7 @@ class PlatformResourceIT {
         // Create the Platform, which fails.
 
         restPlatformMockMvc.perform(
-            post("/api/platforms")
+            post("/management/platforms")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(platform))
         ).andExpect(status().isBadRequest)
@@ -212,7 +212,7 @@ class PlatformResourceIT {
         updatedPlatform.url = UPDATED_URL
 
         restPlatformMockMvc.perform(
-            put("/api/platforms")
+            put("/management/platforms")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(updatedPlatform))
         ).andExpect(status().isOk)
@@ -234,7 +234,7 @@ class PlatformResourceIT {
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restPlatformMockMvc.perform(
-            put("/api/platforms")
+            put("/management/platforms")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(platform))
         ).andExpect(status().isBadRequest)
@@ -257,7 +257,7 @@ class PlatformResourceIT {
 
         // Delete the platform
         restPlatformMockMvc.perform(
-            delete("/api/platforms/{id}", id)
+            delete("/management/platforms/{id}", id)
                 .accept(MediaType.APPLICATION_JSON)
         ).andExpect(status().isNoContent)
 

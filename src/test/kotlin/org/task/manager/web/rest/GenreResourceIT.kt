@@ -83,7 +83,7 @@ class GenreResourceIT {
 
         // Create the Genre
         restGenreMockMvc.perform(
-            post("/api/genres")
+            post("/management/genres")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(genre))
         ).andExpect(status().isCreated)
@@ -105,7 +105,7 @@ class GenreResourceIT {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restGenreMockMvc.perform(
-            post("/api/genres")
+            post("/management/genres")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(genre))
         ).andExpect(status().isBadRequest)
@@ -125,7 +125,7 @@ class GenreResourceIT {
         // Create the Genre, which fails.
 
         restGenreMockMvc.perform(
-            post("/api/genres")
+            post("/management/genres")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(genre))
         ).andExpect(status().isBadRequest)
@@ -189,7 +189,7 @@ class GenreResourceIT {
         updatedGenre.name = UPDATED_NAME
 
         restGenreMockMvc.perform(
-            put("/api/genres")
+            put("/management/genres")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(updatedGenre))
         ).andExpect(status().isOk)
@@ -210,7 +210,7 @@ class GenreResourceIT {
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restGenreMockMvc.perform(
-            put("/api/genres")
+            put("/management/genres")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(genre))
         ).andExpect(status().isBadRequest)
@@ -233,7 +233,7 @@ class GenreResourceIT {
 
         // Delete the genre
         restGenreMockMvc.perform(
-            delete("/api/genres/{id}", id)
+            delete("/management/genres/{id}", id)
                 .accept(MediaType.APPLICATION_JSON)
         ).andExpect(status().isNoContent)
 

@@ -39,8 +39,8 @@
                     <td>{{ audiovisual.title }}</td>
                     <td>{{ audiovisual.genre }}</td>
                     <td><a [href]="[audiovisual.platformUrl]" target="_blank">{{ audiovisual.platform }}</a></td>
-                    <td>{{ audiovisual.startDate | date:'dd/MM/yy HH:mm' }}</td>
-                    <td>{{ audiovisual.deadline | date:'dd/MM/yy HH:mm' }}</td>
+                    <td>{{ audiovisual.startDate | date:'dd/MM/yy' }}</td>
+                    <td>{{ audiovisual.deadline | date:'dd/MM/yy' }}</td>
                     <td>
                         <fa-icon [icon]="audiovisual.check ? 'check' : 'times'" aria-hidden="true" class="{{audiovisual.check ? 'text-success' : 'text-danger'}}"></fa-icon>
                     </td>

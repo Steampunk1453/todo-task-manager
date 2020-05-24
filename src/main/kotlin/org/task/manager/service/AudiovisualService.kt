@@ -67,7 +67,6 @@ class AudiovisualService(
      */
     fun delete(id: Long) {
         log.debug("Request to delete Audiovisual : {}", id)
-
         audiovisualRepository.deleteById(id)
     }
 }

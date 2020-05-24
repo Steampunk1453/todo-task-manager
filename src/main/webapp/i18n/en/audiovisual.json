@@ -17,6 +17,8 @@
         "title": ""
       },
       "title": "Title",
+      "titles": "Suggested titles",
+      "title.placeholder": "Write the title",
       "genre": "Genre",
       "platform": "Platform",
       "platformUrl": "Platform Url",

@@ -12,11 +12,13 @@ import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
 import org.task.manager.domain.User
+import org.task.manager.service.dto.NotificationDTO
 import org.thymeleaf.context.Context
 import org.thymeleaf.spring5.SpringTemplateEngine
 
 private const val USER = "user"
 private const val BASE_URL = "baseUrl"
+private const val NOTIFICATION = "notification"
 
 /**
  * Service for sending emails.
@@ -65,7 +67,7 @@ class MailService(
     }
 
     @Async
-    fun sendEmailFromTemplate(user: User, templateName: String, titleKey: String) {
+    fun sendEmailFromTemplate(user: User, notification: NotificationDTO? = null, templateName: String, titleKey: String) {
         if (user.email == null) {
             log.debug("Email doesn't exist for user '{}'", user.login)
             return
@@ -74,6 +76,8 @@ class MailService(
         val context = Context(locale).apply {
             setVariable(USER, user)
             setVariable(BASE_URL, jHipsterProperties.mail.baseUrl)
+            if (notification != null)
+                setVariable(NOTIFICATION, notification)
         }
         val content = templateEngine.process(templateName, context)
         val subject = messageSource.getMessage(titleKey, null, locale)
@@ -83,18 +87,24 @@ class MailService(
     @Async
     fun sendActivationEmail(user: User) {
         log.debug("Sending activation email to '{}'", user.email)
-        sendEmailFromTemplate(user, "mail/activationEmail", "email.activation.title")
+        sendEmailFromTemplate(user, templateName = "mail/activationEmail", titleKey = "email.activation.title")
     }
 
     @Async
     fun sendCreationEmail(user: User) {
         log.debug("Sending creation email to '{}'", user.email)
-        sendEmailFromTemplate(user, "mail/creationEmail", "email.activation.title")
+        sendEmailFromTemplate(user, templateName = "mail/creationEmail", titleKey = "email.activation.title")
     }
 
     @Async
     fun sendPasswordResetMail(user: User) {
         log.debug("Sending password reset email to '{}'", user.email)
-        sendEmailFromTemplate(user, "mail/passwordResetEmail", "email.reset.title")
+        sendEmailFromTemplate(user, templateName = "mail/passwordResetEmail", titleKey = "email.reset.title")
+    }
+
+    @Async
+    fun sendNotificationMail(notification: NotificationDTO) {
+        log.debug("Sending password reset email to '{}'", notification.user?.email)
+        notification.user?.let { sendEmailFromTemplate(it, notification, "mail/notificationEmail", "email.notification.title") }
     }
 }
