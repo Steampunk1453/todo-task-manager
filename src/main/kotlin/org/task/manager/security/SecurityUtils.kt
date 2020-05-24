@@ -66,16 +66,15 @@ fun isAuthenticated(): Boolean {
  * @return true if the current user has the authority, false otherwise.
  */
 fun isCurrentUserInRole(authority: String): Boolean {
-  val authentication = SecurityContextHolder.getContext().authentication
+    val authentication = SecurityContextHolder.getContext().authentication
 
-  if (authentication != null) {
-    val isUserPresent = getAuthorities(authentication)?.any { it == authority }
-    if (isUserPresent != null) {
-        return isUserPresent
+    if (authentication != null) {
+        val isUserPresent = getAuthorities(authentication)?.any { it == authority }
+        if (isUserPresent != null) {
+            return isUserPresent
+        }
     }
-  }
-
-  return false
+    return false
 }
 
 fun getAuthorities(authentication: Authentication): List<String>? {

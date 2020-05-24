@@ -1,0 +1,29 @@
+{
+  "toDoTaskManagerApp": {
+    "audiovisual": {
+      "home": {
+        "title": "Series & Películas",
+        "createLabel": "Crear nuevo Serie o Película",
+        "createOrEditLabel": "Crear o editar Serie o Película",
+        "notFound": "Ningún Audiovisuals encontrado"
+      },
+      "created": "Un nuevo Audiovisual ha sido creado con el identificador {{ param }}",
+      "updated": "Un Audiovisual ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Audiovisual ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Audiovisual {{ id }}?"
+      },
+      "detail": {
+        "title": ""
+      },
+      "title": "Title",
+      "genre": "Genre",
+      "platform": "Platform",
+      "platformUrl": "Platform Url",
+      "startDate": "Start Date",
+      "deadline": "Deadline",
+      "check": "Hecho",
+      "user": "User"
+    }
+  }
+}
