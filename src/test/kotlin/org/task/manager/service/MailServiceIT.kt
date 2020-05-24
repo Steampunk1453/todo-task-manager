@@ -35,6 +35,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl
 import org.task.manager.ToDoTaskManagerApp
 import org.task.manager.config.DEFAULT_LANGUAGE
 import org.task.manager.domain.User
+import org.task.manager.service.dto.NotificationDTO
 import org.thymeleaf.spring5.SpringTemplateEngine
 
 private val languages = arrayOf<String>(
@@ -140,7 +141,14 @@ class MailServiceIT {
             email = "john.doe@example.com",
             langKey = "en"
         )
-        mailService.sendEmailFromTemplate(user, "mail/testEmail", "email.test.title")
+        val notification = NotificationDTO(
+            name = "name",
+            message = "message",
+            url = "url",
+            startDate = true,
+            user = user
+        )
+        mailService.sendEmailFromTemplate(user, notification, "mail/testEmail", "email.test.title")
         verify(javaMailSender).send(messageCaptor.capture())
         val message = messageCaptor.value
         assertThat(message.subject).isEqualTo("test title")
@@ -199,6 +207,29 @@ class MailServiceIT {
     }
 
     @Test
+    fun testSendNotificationMail() {
+        val user = User(
+            langKey = DEFAULT_LANGUAGE,
+            login = "john",
+            email = "john.doe@example.com"
+        )
+        val notification = NotificationDTO(
+            name = "name",
+            message = "message",
+            url = "url",
+            startDate = true,
+            user = user
+        )
+        mailService.sendNotificationMail(notification)
+        verify(javaMailSender).send(messageCaptor.capture())
+        val message = messageCaptor.value
+        assertThat(message.allRecipients[0].toString()).isEqualTo(user.email)
+        assertThat(message.from[0].toString()).isEqualTo(jHipsterProperties.mail.from)
+        assertThat(message.content.toString()).isNotEmpty()
+        assertThat(message.dataHandler.contentType).isEqualTo("text/html;charset=UTF-8")
+    }
+
+    @Test
     fun testSendEmailWithException() {
         doThrow(MailSendException::class.java)
             .`when`(javaMailSender)
@@ -216,9 +247,16 @@ class MailServiceIT {
             login = "john",
             email = "john.doe@example.com"
         )
+        val notification = NotificationDTO(
+            name = "name",
+            message = "message",
+            url = "url",
+            startDate = true,
+            user = user
+        )
         for (langKey in languages) {
             user.langKey = langKey
-            mailService.sendEmailFromTemplate(user, "mail/testEmail", "email.test.title")
+            mailService.sendEmailFromTemplate(user, notification, "mail/testEmail", "email.test.title")
             verify(javaMailSender, atLeastOnce()).send(messageCaptor.capture())
             val message = messageCaptor.value
 
