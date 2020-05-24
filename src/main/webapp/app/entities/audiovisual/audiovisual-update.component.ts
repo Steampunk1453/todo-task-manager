@@ -52,13 +52,16 @@ export class AudiovisualUpdateComponent implements OnInit {
         audiovisual.deadline = today;
       }
       this.updateForm(audiovisual);
-
       this.userService.query().subscribe((res: HttpResponse<IUser[]>) => (this.users = res.body || []));
     });
     this.audiovisualService.titles().subscribe(titles => {
       this.titles = titles;
+      if (titles) {
+        this.titles = titles.map(item => {
+          return item['name'];
+        });
+      }
     });
-
     this.audiovisualService.genres().subscribe(genres => {
       if (genres) {
         this.genres = genres.map(item => {
@@ -66,13 +69,12 @@ export class AudiovisualUpdateComponent implements OnInit {
         });
       }
     });
-
     this.audiovisualService.platforms().subscribe(platforms => {
       if (platforms) {
         this.platformUrls = platforms.map(item => {
           return { name: item['name'], url: item['url'] };
         });
-        this.mapUrls = new Map(this.platformUrls.map(i => [i.name, i.url]));
+        this.mapUrls = new Map(this.platformUrls.map(p => [p.name, p.url]));
         this.platforms = platforms.map(item => {
           return item['name'];
         });
@@ -108,6 +110,10 @@ export class AudiovisualUpdateComponent implements OnInit {
     } else {
       this.subscribeToSaveResponse(this.audiovisualService.create(audiovisual));
     }
+  }
+
+  onOptionsSelected(value: String): void {
+    this.editForm.controls.title.setValue(value);
   }
 
   private createFromForm(): IAudiovisual {
