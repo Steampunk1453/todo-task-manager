@@ -11,13 +11,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import org.task.manager.domain.Title
 import org.task.manager.repository.TitleRepository
@@ -29,6 +23,7 @@ private const val ENTITY_NAME = "title"
  */
 @RestController
 @Transactional
+@RequestMapping("/api")
 class TitleResource(
     private val titleRepository: TitleRepository
 ) {
@@ -91,7 +86,7 @@ class TitleResource(
 
      * @return the [ResponseEntity] with status `200 (OK)` and the list of titles in body.
      */
-    @GetMapping("api/titles")
+    @GetMapping("/titles")
     fun getAllTitles(
         pageable: Pageable
     ): ResponseEntity<MutableList<Title>> {
@@ -107,7 +102,7 @@ class TitleResource(
      * @param id the id of the title to retrieve.
      * @return the [ResponseEntity] with status `200 (OK)` and with body the title, or with status `404 (Not Found)`.
      */
-    @GetMapping("api/titles/{id}")
+    @GetMapping("/titles/{id}")
     fun getTitle(@PathVariable id: Long): ResponseEntity<Title> {
         log.debug("REST request to get Title : {}", id)
         val title = titleRepository.findById(id)

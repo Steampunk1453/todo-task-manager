@@ -70,6 +70,7 @@ class SecurityConfiguration(
             .antMatchers("/api/authenticate").permitAll()
             .antMatchers("/api/account/reset-password/init").permitAll()
             .antMatchers("/api/account/reset-password/finish").permitAll()
+            .antMatchers("/api/management/**").hasAuthority(ADMIN)
             .antMatchers("/api/**").authenticated()
             .antMatchers("/websocket/tracker").hasAuthority(ADMIN)
             .antMatchers("/websocket/**").permitAll()
