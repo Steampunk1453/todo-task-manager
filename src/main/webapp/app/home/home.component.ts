@@ -70,6 +70,5 @@ export class HomeComponent implements OnInit, OnDestroy {
           allDay: true
         };
       });
-    this.calendarEvents.length;
   }
 }
