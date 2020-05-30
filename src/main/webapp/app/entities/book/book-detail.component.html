@@ -1,0 +1,66 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="book">
+            <h2><span jhiTranslate="toDoTaskManagerApp.book.detail.title">Book</span> {{ book.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="toDoTaskManagerApp.book.title">Title</span></dt>
+                <dd>
+                    <span>{{ book.title }}</span>
+                </dd>
+                <dt><span jhiTranslate="toDoTaskManagerApp.book.author">Author</span></dt>
+                <dd>
+                    <span>{{ book.author }}</span>
+                </dd>
+                <dt><span jhiTranslate="toDoTaskManagerApp.book.genre">Genre</span></dt>
+                <dd>
+                    <span>{{ book.genre }}</span>
+                </dd>
+                <dt><span jhiTranslate="toDoTaskManagerApp.book.editorial">Editorial</span></dt>
+                <dd>
+                    <span>{{ book.editorial }}</span>
+                </dd>
+                <dt><span jhiTranslate="toDoTaskManagerApp.book.bookshop">Bookshop</span></dt>
+                <dd>
+                    <span>{{ book.bookshop }}</span>
+                </dd>
+                <dt><span jhiTranslate="toDoTaskManagerApp.book.bookshopUrl">Bookshop Url</span></dt>
+                <dd>
+                    <span>{{ book.bookshopUrl }}</span>
+                </dd>
+                <dt><span jhiTranslate="toDoTaskManagerApp.book.startDate">Start Date</span></dt>
+                <dd>
+                    <span>{{ book.startDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="toDoTaskManagerApp.book.deadline">Deadline</span></dt>
+                <dd>
+                    <span>{{ book.deadline }}</span>
+                </dd>
+                <dt><span jhiTranslate="toDoTaskManagerApp.book.check">Check</span></dt>
+                <dd>
+                    <span>{{ book.check }}</span>
+                </dd>
+                <dt><span jhiTranslate="toDoTaskManagerApp.book.user">User</span></dt>
+                <dd>
+                    {{ book.user?.login }}
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/book', book.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
