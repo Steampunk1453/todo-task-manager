@@ -4,6 +4,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 
 import { LoginService } from 'app/core/login/login.service';
+import { JhiEventManager } from 'ng-jhipster';
 
 @Component({
   selector: 'jhi-login-modal',
@@ -21,7 +22,13 @@ export class LoginModalComponent implements AfterViewInit {
     rememberMe: [false]
   });
 
-  constructor(private loginService: LoginService, private router: Router, public activeModal: NgbActiveModal, private fb: FormBuilder) {}
+  constructor(
+    private loginService: LoginService,
+    private router: Router,
+    public activeModal: NgbActiveModal,
+    private fb: FormBuilder,
+    private eventManager: JhiEventManager
+  ) {}
 
   ngAfterViewInit(): void {
     if (this.username) {
@@ -56,6 +63,10 @@ export class LoginModalComponent implements AfterViewInit {
           ) {
             this.router.navigate(['']);
           }
+          this.eventManager.broadcast({
+            name: 'authenticationSuccess',
+            content: 'Sending Authentication Success'
+          });
         },
         () => (this.authenticationError = true)
       );
