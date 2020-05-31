@@ -2,9 +2,6 @@ package org.task.manager.web.rest
 
 import io.github.jhipster.web.util.HeaderUtil
 import io.github.jhipster.web.util.ResponseUtil
-import java.net.URI
-import java.net.URISyntaxException
-import javax.validation.Valid
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
@@ -20,14 +17,17 @@ import org.springframework.web.bind.annotation.RestController
 import org.task.manager.domain.Genre
 import org.task.manager.repository.GenreRepository
 import org.task.manager.web.rest.errors.BadRequestAlertException
+import java.net.URI
+import java.net.URISyntaxException
+import javax.validation.Valid
 
 private const val ENTITY_NAME = "genre"
 /**
  * REST controller for managing [org.task.manager.domain.Genre].
  */
 @RestController
-@Transactional
 @RequestMapping("/api")
+@Transactional
 class GenreResource(
     private val genreRepository: GenreRepository
 ) {
