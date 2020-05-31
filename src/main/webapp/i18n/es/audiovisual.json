@@ -16,14 +16,14 @@
       "detail": {
         "title": ""
       },
-      "title": "Title",
-      "genre": "Genre",
-      "platform": "Platform",
-      "platformUrl": "Platform Url",
-      "startDate": "Start Date",
-      "deadline": "Deadline",
+      "title": "Título",
+      "genre": "Género",
+      "platform": "Platforma",
+      "platformUrl": "Platforma URL",
+      "startDate": "Día de inicio",
+      "deadline": "Fecha límite",
       "check": "Hecho",
-      "user": "User"
+      "user": "Usuario"
     }
   }
 }

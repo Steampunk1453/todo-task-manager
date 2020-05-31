@@ -1,7 +1,7 @@
 {
   "name": "to-do-task-manager",
   "version": "0.0.1-SNAPSHOT",
-  "description": "Description for ToDoTaskManager",
+  "description": "ToDo Task Manager",
   "private": true,
   "license": "UNLICENSED",
   "cacheDirectories": [

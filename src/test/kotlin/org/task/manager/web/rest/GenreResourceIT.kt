@@ -83,7 +83,7 @@ class GenreResourceIT {
 
         // Create the Genre
         restGenreMockMvc.perform(
-            post("/management/genres")
+            post("/api/management/genres")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(genre))
         ).andExpect(status().isCreated)
@@ -93,6 +93,7 @@ class GenreResourceIT {
         assertThat(genreList).hasSize(databaseSizeBeforeCreate + 1)
         val testGenre = genreList[genreList.size - 1]
         assertThat(testGenre.name).isEqualTo(DEFAULT_NAME)
+        assertThat(testGenre.literary).isEqualTo(DEFAULT_LITERARY)
     }
 
     @Test
@@ -105,7 +106,7 @@ class GenreResourceIT {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restGenreMockMvc.perform(
-            post("/management/genres")
+            post("/api/management/genres")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(genre))
         ).andExpect(status().isBadRequest)
@@ -125,7 +126,7 @@ class GenreResourceIT {
         // Create the Genre, which fails.
 
         restGenreMockMvc.perform(
-            post("/management/genres")
+            post("/api/management/genres")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(genre))
         ).andExpect(status().isBadRequest)
@@ -146,6 +147,7 @@ class GenreResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(genre.id?.toInt())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].literary").value(hasItem(DEFAULT_LITERARY)))
     }
 
     @Test
@@ -163,6 +165,7 @@ class GenreResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(id.toInt()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
+            .andExpect(jsonPath("$.literary").value(DEFAULT_LITERARY))
     }
 
     @Test
@@ -187,9 +190,10 @@ class GenreResourceIT {
         // Disconnect from session so that the updates on updatedGenre are not directly saved in db
         em.detach(updatedGenre)
         updatedGenre.name = UPDATED_NAME
+        updatedGenre.literary = UPDATED_LITERARY
 
         restGenreMockMvc.perform(
-            put("/management/genres")
+            put("/api/management/genres")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(updatedGenre))
         ).andExpect(status().isOk)
@@ -199,6 +203,7 @@ class GenreResourceIT {
         assertThat(genreList).hasSize(databaseSizeBeforeUpdate)
         val testGenre = genreList[genreList.size - 1]
         assertThat(testGenre.name).isEqualTo(UPDATED_NAME)
+        assertThat(testGenre.literary).isEqualTo(UPDATED_LITERARY)
     }
 
     @Test
@@ -210,7 +215,7 @@ class GenreResourceIT {
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restGenreMockMvc.perform(
-            put("/management/genres")
+            put("/api/management/genres")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(genre))
         ).andExpect(status().isBadRequest)
@@ -233,7 +238,7 @@ class GenreResourceIT {
 
         // Delete the genre
         restGenreMockMvc.perform(
-            delete("/management/genres/{id}", id)
+            delete("/api/management/genres/{id}", id)
                 .accept(MediaType.APPLICATION_JSON)
         ).andExpect(status().isNoContent)
 
@@ -247,6 +252,9 @@ class GenreResourceIT {
         private const val DEFAULT_NAME = "AAAAAAAAAA"
         private const val UPDATED_NAME = "BBBBBBBBBB"
 
+        private const val DEFAULT_LITERARY: Int = 0
+        private const val UPDATED_LITERARY: Int = 1
+
         /**
          * Create an entity for this test.
          *
@@ -256,7 +264,8 @@ class GenreResourceIT {
         @JvmStatic
         fun createEntity(em: EntityManager): Genre {
             val genre = Genre(
-                name = DEFAULT_NAME
+                name = DEFAULT_NAME,
+                literary = DEFAULT_LITERARY
             )
 
             return genre
@@ -271,7 +280,8 @@ class GenreResourceIT {
         @JvmStatic
         fun createUpdatedEntity(em: EntityManager): Genre {
             val genre = Genre(
-                name = UPDATED_NAME
+                name = UPDATED_NAME,
+                literary = UPDATED_LITERARY
             )
 
             return genre

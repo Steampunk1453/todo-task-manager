@@ -7,6 +7,9 @@ import * as moment from 'moment';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IAudiovisual } from 'app/shared/model/audiovisual.model';
+import { ITitle } from 'app/shared/model/title.model';
+import { IGenre } from 'app/shared/model/genre.model';
+import { IPlatform } from 'app/shared/model/platform.model';
 
 type EntityResponseType = HttpResponse<IAudiovisual>;
 type EntityArrayResponseType = HttpResponse<IAudiovisual[]>;
@@ -48,16 +51,16 @@ export class AudiovisualService {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
-  titles(): Observable<string[]> {
-    return this.http.get<string[]>(SERVER_API_URL + 'api/titles');
+  titles(): Observable<ITitle[]> {
+    return this.http.get<ITitle[]>(SERVER_API_URL + 'api/titles');
   }
 
-  genres(): Observable<string[]> {
-    return this.http.get<string[]>(SERVER_API_URL + 'api/genres');
+  genres(): Observable<IGenre[]> {
+    return this.http.get<IGenre[]>(SERVER_API_URL + 'api/genres');
   }
 
-  platforms(): Observable<string[]> {
-    return this.http.get<string[]>(SERVER_API_URL + 'api/platforms');
+  platforms(): Observable<IPlatform[]> {
+    return this.http.get<IPlatform[]>(SERVER_API_URL + 'api/platforms');
   }
 
   protected convertDateFromClient(audiovisual: IAudiovisual): IAudiovisual {

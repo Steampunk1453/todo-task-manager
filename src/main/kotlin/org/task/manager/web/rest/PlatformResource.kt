@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.task.manager.domain.Platform
 import org.task.manager.repository.PlatformRepository
@@ -25,6 +26,7 @@ private const val ENTITY_NAME = "platform"
  * REST controller for managing [org.task.manager.domain.Platform].
  */
 @RestController
+@RequestMapping("/api")
 @Transactional
 class PlatformResource(
     private val platformRepository: PlatformRepository
@@ -76,7 +78,7 @@ class PlatformResource(
             .headers(
                 HeaderUtil.createEntityUpdateAlert(
                     applicationName, true, ENTITY_NAME,
-                     platform.id.toString()
+                    platform.id.toString()
                 )
             )
             .body(result)
@@ -87,7 +89,7 @@ class PlatformResource(
 
      * @return the [ResponseEntity] with status `200 (OK)` and the list of platforms in body.
      */
-    @GetMapping("api/platforms")
+    @GetMapping("/platforms")
     fun getAllPlatforms(): MutableList<Platform> {
         log.debug("REST request to get all Platforms")
         return platformRepository.findAll()
@@ -99,7 +101,7 @@ class PlatformResource(
      * @param id the id of the platform to retrieve.
      * @return the [ResponseEntity] with status `200 (OK)` and with body the platform, or with status `404 (Not Found)`.
      */
-    @GetMapping("api/platforms/{id}")
+    @GetMapping("/platforms/{id}")
     fun getPlatform(@PathVariable id: Long): ResponseEntity<Platform> {
         log.debug("REST request to get Platform : {}", id)
         val platform = platformRepository.findById(id)

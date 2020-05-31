@@ -11,6 +11,9 @@ import { IAudiovisual, Audiovisual } from 'app/shared/model/audiovisual.model';
 import { AudiovisualService } from './audiovisual.service';
 import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
+import { ITitle } from 'app/shared/model/title.model';
+import { IGenre } from 'app/shared/model/genre.model';
+import { IPlatform } from 'app/shared/model/platform.model';
 
 @Component({
   selector: 'jhi-audiovisual-update',
@@ -19,10 +22,9 @@ import { UserService } from 'app/core/user/user.service';
 export class AudiovisualUpdateComponent implements OnInit {
   isSaving = false;
   users: IUser[] = [];
-  titles: string[] = [];
-  genres: string[] = [];
-  platforms: string[] = [];
-  platformUrls: any[] = [];
+  titles: ITitle[] = [];
+  genres: IGenre[] = [];
+  platforms: IPlatform[] = [];
   mapUrls: any;
 
   editForm = this.fb.group({
@@ -57,28 +59,18 @@ export class AudiovisualUpdateComponent implements OnInit {
     this.audiovisualService.titles().subscribe(titles => {
       if (titles) {
         this.titles = titles;
-        this.titles = titles.map(item => {
-          return item['name'];
-        });
       }
     });
     this.audiovisualService.genres().subscribe(genres => {
       if (genres) {
-        this.genres = genres.map(item => {
-          return item['name'];
-        });
+        this.genres = genres.filter(g => g.literary !== 1);
       }
     });
     this.audiovisualService.platforms().subscribe(platforms => {
       if (platforms) {
-        this.platformUrls = platforms.map(item => {
-          return { name: item['name'], url: item['url'] };
-        });
-        this.mapUrls = new Map(this.platformUrls.map(p => [p.name, p.url]));
-        this.platforms = platforms.map(item => {
-          return item['name'];
-        });
+        this.platforms = platforms;
       }
+      this.mapUrls = new Map(this.platforms.map(p => [p.name, p.url]));
     });
   }
 
@@ -112,8 +104,8 @@ export class AudiovisualUpdateComponent implements OnInit {
     }
   }
 
-  onOptionsSelected(value: String): void {
-    this.editForm.controls.title.setValue(value);
+  onOptionsSelected(event: any): void {
+    this.editForm.controls.title.setValue(event.target.value);
   }
 
   private createFromForm(): IAudiovisual {

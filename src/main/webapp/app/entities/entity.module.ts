@@ -7,6 +7,10 @@ import { RouterModule } from '@angular/router';
       {
         path: 'audiovisual',
         loadChildren: () => import('./audiovisual/audiovisual.module').then(m => m.ToDoTaskManagerAudiovisualModule)
+      },
+      {
+        path: 'book',
+        loadChildren: () => import('./book/book.module').then(m => m.ToDoTaskManagerBookModule)
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

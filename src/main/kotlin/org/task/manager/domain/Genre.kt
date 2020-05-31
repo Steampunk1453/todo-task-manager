@@ -1,7 +1,13 @@
 package org.task.manager.domain
 
 import java.io.Serializable
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
+import javax.persistence.SequenceGenerator
+import javax.persistence.Table
 import javax.validation.constraints.NotNull
 import org.hibernate.annotations.Cache
 import org.hibernate.annotations.CacheConcurrencyStrategy
@@ -19,7 +25,10 @@ data class Genre(
     var id: Long? = null,
     @get: NotNull
     @Column(name = "name", nullable = false)
-    var name: String? = null
+    var name: String? = null,
+
+    @Column(name = "literary")
+    var literary: Int? = null
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
 ) : Serializable {
@@ -37,6 +46,7 @@ data class Genre(
     override fun toString() = "Genre{" +
         "id=$id" +
         ", name='$name'" +
+        ", literary=$literary" +
         "}"
 
     companion object {

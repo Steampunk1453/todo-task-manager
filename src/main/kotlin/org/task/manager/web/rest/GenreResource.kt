@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.task.manager.domain.Genre
 import org.task.manager.repository.GenreRepository
@@ -25,6 +26,7 @@ private const val ENTITY_NAME = "genre"
  * REST controller for managing [org.task.manager.domain.Genre].
  */
 @RestController
+@RequestMapping("/api")
 @Transactional
 class GenreResource(
     private val genreRepository: GenreRepository
@@ -87,7 +89,7 @@ class GenreResource(
 
      * @return the [ResponseEntity] with status `200 (OK)` and the list of genres in body.
      */
-    @GetMapping("api/genres")
+    @GetMapping("/genres")
     fun getAllGenres(): MutableList<Genre> {
         log.debug("REST request to get all Genres")
         return genreRepository.findAll()
@@ -99,7 +101,7 @@ class GenreResource(
      * @param id the id of the genre to retrieve.
      * @return the [ResponseEntity] with status `200 (OK)` and with body the genre, or with status `404 (Not Found)`.
      */
-    @GetMapping("api/genres/{id}")
+    @GetMapping("/genres/{id}")
     fun getGenre(@PathVariable id: Long): ResponseEntity<Genre> {
         log.debug("REST request to get Genre : {}", id)
         val genre = genreRepository.findById(id)

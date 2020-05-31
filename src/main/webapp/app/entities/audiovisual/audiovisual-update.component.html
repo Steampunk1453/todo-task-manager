@@ -24,22 +24,22 @@
 
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="toDoTaskManagerApp.audiovisual.titles" for="field_titles">Titles</label>
-                    <select class="form-control" id="field_titles" #select (change)='onOptionsSelected(select.value)'>
-                        <option *ngFor="let title of titles" [value]="title">{{ title }}</option>
+                    <select class="form-control" id="field_titles" #select (change)='onOptionsSelected($event)'>
+                        <option *ngFor="let title of titles" [value]="title.name">{{ title.name }}</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="toDoTaskManagerApp.audiovisual.genre" for="field_genre">Genre</label>
                     <select class="form-control" id="field_genre" formControlName="genre">
-                        <option *ngFor="let genre of genres" [value]="genre">{{ genre }}</option>
+                        <option *ngFor="let genre of genres" [value]="genre.name">{{ genre.name }}</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="toDoTaskManagerApp.audiovisual.platform" for="field_platform">Platform</label>
                     <select class="form-control" id="field_platform" formControlName="platform">
-                        <option *ngFor="let platform of platforms" [value]="platform">{{ platform }}</option>
+                        <option *ngFor="let platform of platforms" [value]="platform.name">{{ platform.name }}</option>
                     </select>
                 </div>
 

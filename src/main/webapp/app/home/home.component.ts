@@ -13,6 +13,7 @@ import { AudiovisualService } from 'app/entities/audiovisual/audiovisual.service
 import { IAudiovisual } from 'app/shared/model/audiovisual.model';
 import { HttpResponse } from '@angular/common/http';
 import { SERVER_API_URL } from 'app/app.constants';
+import { JhiEventManager } from 'ng-jhipster';
 
 @Component({
   selector: 'jhi-home',
@@ -32,12 +33,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private accountService: AccountService,
     private loginModalService: LoginModalService,
-    private audiovisualService: AudiovisualService
+    private audiovisualService: AudiovisualService,
+    private eventManager: JhiEventManager
   ) {}
 
   ngOnInit(): void {
     this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
-    this.audiovisualService.query().subscribe((res: HttpResponse<IAudiovisual[]>) => this.onSuccess(res.body));
+    if (this.isAuthenticated()) {
+      this.getCalendarData();
+    }
+    this.registerAuthenticationSuccess();
   }
 
   isAuthenticated(): boolean {
@@ -52,6 +57,21 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.authSubscription) {
       this.authSubscription.unsubscribe();
     }
+  }
+
+  registerAuthenticationSuccess(): void {
+    this.eventManager.subscribe('authenticationSuccess', () => {
+      this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => {
+        this.account = account;
+        if (this.isAuthenticated()) {
+          this.getCalendarData();
+        }
+      });
+    });
+  }
+
+  getCalendarData(): void {
+    this.audiovisualService.query().subscribe((res: HttpResponse<IAudiovisual[]>) => this.onSuccess(res.body));
   }
 
   protected onSuccess(data: IAudiovisual[] | null): void {
@@ -70,6 +90,5 @@ export class HomeComponent implements OnInit, OnDestroy {
           allDay: true
         };
       });
-    this.calendarEvents.length;
   }
 }
