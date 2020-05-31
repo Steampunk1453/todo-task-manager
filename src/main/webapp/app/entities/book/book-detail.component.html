@@ -28,24 +28,20 @@
                 <dd>
                     <span>{{ book.bookshop }}</span>
                 </dd>
-                <dt><span jhiTranslate="toDoTaskManagerApp.book.bookshopUrl">Bookshop Url</span></dt>
-                <dd>
-                    <span>{{ book.bookshopUrl }}</span>
-                </dd>
                 <dt><span jhiTranslate="toDoTaskManagerApp.book.startDate">Start Date</span></dt>
                 <dd>
-                    <span>{{ book.startDate }}</span>
+                    <span>{{ book.startDate | date:'dd/MM/yy HH:mm' }}</span>
                 </dd>
                 <dt><span jhiTranslate="toDoTaskManagerApp.book.deadline">Deadline</span></dt>
                 <dd>
-                    <span>{{ book.deadline }}</span>
+                    <span>{{ book.deadline | date:'dd/MM/yy HH:mm' }}</span>
                 </dd>
                 <dt><span jhiTranslate="toDoTaskManagerApp.book.check">Check</span></dt>
                 <dd>
-                    <span>{{ book.check }}</span>
+                    <fa-icon [icon]="book.check ? 'check' : 'times'" aria-hidden="true" class="{{book.check ? 'text-success' : 'text-danger'}}"></fa-icon>
                 </dd>
-                <dt><span jhiTranslate="toDoTaskManagerApp.book.user">User</span></dt>
-                <dd>
+                <dt *jhiHasAnyAuthority="'ROLE_ADMIN'"><span jhiTranslate="toDoTaskManagerApp.book.user">User</span></dt>
+                <dd *jhiHasAnyAuthority="'ROLE_ADMIN'">
                     {{ book.user?.login }}
                 </dd>
             </dl>

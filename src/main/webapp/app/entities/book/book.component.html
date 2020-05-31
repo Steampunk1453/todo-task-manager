@@ -22,33 +22,34 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
-                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th *jhiHasAnyAuthority="'ROLE_ADMIN'" scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id" >ID</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="title"><span jhiTranslate="toDoTaskManagerApp.book.title">Title</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="author"><span jhiTranslate="toDoTaskManagerApp.book.author">Author</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="genre"><span jhiTranslate="toDoTaskManagerApp.book.genre">Genre</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="editorial"><span jhiTranslate="toDoTaskManagerApp.book.editorial">Editorial</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="bookshop"><span jhiTranslate="toDoTaskManagerApp.book.bookshop">Bookshop</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="bookshopUrl"><span jhiTranslate="toDoTaskManagerApp.book.bookshopUrl">Bookshop Url</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="startDate"><span jhiTranslate="toDoTaskManagerApp.book.startDate">Start Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="deadline"><span jhiTranslate="toDoTaskManagerApp.book.deadline">Deadline</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="check"><span jhiTranslate="toDoTaskManagerApp.book.check">Check</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="user.login"><span jhiTranslate="toDoTaskManagerApp.book.user">User</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th *jhiHasAnyAuthority="'ROLE_ADMIN'" scope="col"  jhiSortBy="user.login"><span jhiTranslate="toDoTaskManagerApp.book.user">User</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let book of books ;trackBy: trackId">
-                    <td><a [routerLink]="['/book', book.id, 'view']">{{ book.id }}</a></td>
+                    <td *jhiHasAnyAuthority="'ROLE_ADMIN'"><a [routerLink]="['/book', book.id, 'view']">{{ book.id }}</a></td>
                     <td>{{ book.title }}</td>
                     <td>{{ book.author }}</td>
                     <td>{{ book.genre }}</td>
                     <td>{{ book.editorial }}</td>
                     <td>{{ book.bookshop }}</td>
-                    <td>{{ book.bookshopUrl }}</td>
-                    <td>{{ book.startDate | date:'medium' }}</td>
-                    <td>{{ book.deadline | date:'medium' }}</td>
-                    <td>{{ book.check }}</td>
+                    <td><a [href]="[book.bookshopUrl]" target="_blank">{{ book.bookshop }}</a></td>
+                    <td>{{ book.startDate | date:'dd/MM/yy' }}</td>
+                    <td>{{ book.deadline | date:'dd/MM/yy' }}</td>
                     <td>
+                        <fa-icon [icon]="book.check ? 'check' : 'times'" aria-hidden="true" class="{{book.check ? 'text-success' : 'text-danger'}}"></fa-icon>
+                    </td>
+                    <td *jhiHasAnyAuthority="'ROLE_ADMIN'">
                         {{ book.user?.login }}
                     </td>
                     <td class="text-right">
