@@ -42,6 +42,12 @@ class AudiovisualService(
         return audiovisualRepository.findAll(pageable)
     }
 
+    /**
+     * Get all the audiovisuals by user.
+     *
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
     @Transactional(readOnly = true)
     fun findAllByUser(pageable: Pageable): Page<Audiovisual> {
         log.debug("Request to get all Audiovisuals")
