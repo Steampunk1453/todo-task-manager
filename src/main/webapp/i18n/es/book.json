@@ -16,16 +16,16 @@
       "detail": {
         "title": "Book"
       },
-      "title": "Title",
-      "author": "Author",
-      "genre": "Genre",
+      "title": "Título",
+      "author": "Autor",
+      "genre": "Género",
       "editorial": "Editorial",
-      "bookshop": "Bookshop",
-      "bookshopUrl": "Bookshop Url",
-      "startDate": "Start Date",
-      "deadline": "Deadline",
-      "check": "Check",
-      "user": "User"
+      "bookshop": "Libreria",
+      "bookshopUrl": "Libreria Url",
+      "startDate": "Día de inicio",
+      "deadline": "Fecha límite",
+      "check": "Hecho",
+      "user": "Usuario"
     }
   }
 }
