@@ -82,8 +82,8 @@ export class BookUpdateComponent implements OnInit {
       editorial: book.editorial,
       bookshop: book.bookshop,
       bookshopUrl: book.bookshopUrl,
-      startDate: book.startDate ? book.startDate.format(DATE_TIME_FORMAT) : null,
-      deadline: book.deadline ? book.deadline.format(DATE_TIME_FORMAT) : null,
+      startDate: book.startDate ? book.startDate.format(DATE_TIME_FORMAT) : undefined,
+      deadline: book.deadline ? book.deadline.format(DATE_TIME_FORMAT) : undefined,
       check: book.check,
       user: book.user
     });

@@ -84,8 +84,8 @@ export class AudiovisualUpdateComponent implements OnInit {
       genre: audiovisual.genre,
       platform: audiovisual.platform,
       platformUrl: audiovisual.platformUrl,
-      startDate: audiovisual.startDate ? audiovisual.startDate.format(DATE_TIME_FORMAT) : null,
-      deadline: audiovisual.deadline ? audiovisual.deadline.format(DATE_TIME_FORMAT) : null,
+      startDate: audiovisual.startDate ? audiovisual.startDate.format(DATE_TIME_FORMAT) : undefined,
+      deadline: audiovisual.deadline ? audiovisual.deadline.format(DATE_TIME_FORMAT) : undefined,
       check: audiovisual.check,
       user: audiovisual.user
     });
