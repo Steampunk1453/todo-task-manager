@@ -103,8 +103,14 @@ class MailService(
     }
 
     @Async
-    fun sendNotificationMail(notification: NotificationDTO) {
-        log.debug("Sending password reset email to '{}'", notification.user?.email)
-        notification.user?.let { sendEmailFromTemplate(it, notification, "mail/notificationEmail", "email.notification.title") }
+    fun sendAudiovisualNotificationMail(notification: NotificationDTO) {
+        log.debug("Sending audiovisual notification to '{}'", notification.user?.email)
+        notification.user?.let { sendEmailFromTemplate(it, notification, "mail/notificationAudiovisualEmail", "email.notification.audiovisual.title") }
+    }
+
+    @Async
+    fun sendBookNotificationMail(notification: NotificationDTO) {
+        log.debug("Sending book notification to '{}'", notification.user?.email)
+        notification.user?.let { sendEmailFromTemplate(it, notification, "mail/notificationBookEmail", "email.notification.book.title") }
     }
 }
