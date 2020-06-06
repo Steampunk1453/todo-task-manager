@@ -24,7 +24,7 @@
 
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="toDoTaskManagerApp.audiovisual.titles" for="field_titles">Titles</label>
-                    <select class="form-control" id="field_titles" #select (change)='onOptionsSelected($event)'>
+                    <select class="form-control" id="field_titles" #select (change)='onOptionsSelected($event)' formControlName="suggestedTitle">
                         <option *ngFor="let title of titles" [value]="title.name">{{ title.name }}</option>
                     </select>
                 </div>
