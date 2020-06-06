@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}" lang="en">
 <head>
-    <title th:text="#{email.notification.title}">JHipster creation</title>
+    <title th:text="#{email.notification.book.title}">JHipster creation</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="shortcut icon" th:href="@{|${baseUrl}/favicon.ico|}" />
 </head>
 <body>
-<p th:text="#{email.notification.greeting(${user.login})}">
+<p th:text="#{email.notification.book.greeting(${user.login})}">
     Dear
 </p>
 <span th:switch="${notification.startDate}">
   <i th:case="true">
-      <p th:text="#{email.notification.text1(${notification.name})}">
+      <p th:text="#{email.notification.book.text1(${notification.name})}">
   </i>
   <i th:case="false">
-     <p th:text="#{email.notification.text2(${notification.name})}">
+     <p th:text="#{email.notification.book.text2(${notification.name})}">
   </i>
 </span>
 <p>

@@ -21,9 +21,9 @@ class AudiovisualNotificationService(
     /**
      * Send notification when is one day left to the deadline
      *
-     * This is scheduled to get fired everyday, at 08:05 (am) in the system.
+     * This is scheduled to get fired everyday, at 08:00 (am) in the system.
      */
-    @Scheduled(cron = "0 05 08 * * ?")
+    @Scheduled(cron = "0 26 18 * * ?")
     override fun send() {
         sendAudiovisualsStartingToday()
         sendAudiovisualsEndingToday()
@@ -45,7 +45,7 @@ class AudiovisualNotificationService(
 
     private fun sendToMail(audiovisuals: List<Audiovisual>, isStartDate: Boolean) {
         for (audiovisual in audiovisuals) {
-            mailService.sendNotificationMail(audiovisual.toDto(isStartDate))
+            mailService.sendAudiovisualNotificationMail(audiovisual.toDto(isStartDate))
         }
     }
 }

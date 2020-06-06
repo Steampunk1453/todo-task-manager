@@ -14,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver
 import org.springframework.http.MediaType
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors
+import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
@@ -22,13 +24,16 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.validation.Validator
+import org.springframework.web.context.WebApplicationContext
 import org.task.manager.ToDoTaskManagerApp
 import org.task.manager.domain.Book
 import org.task.manager.repository.BookRepository
 import org.task.manager.service.BookService
+import org.task.manager.service.UserService
 import org.task.manager.web.rest.errors.ExceptionTranslator
 
 /**
@@ -46,6 +51,9 @@ class BookResourceIT {
     private lateinit var bookService: BookService
 
     @Autowired
+    private lateinit var userService: UserService
+
+    @Autowired
     private lateinit var jacksonMessageConverter: MappingJackson2HttpMessageConverter
 
     @Autowired
@@ -60,6 +68,9 @@ class BookResourceIT {
     @Autowired
     private lateinit var validator: Validator
 
+    @Autowired
+    private lateinit var context: WebApplicationContext
+
     private lateinit var restBookMockMvc: MockMvc
 
     private lateinit var book: Book
@@ -67,7 +78,7 @@ class BookResourceIT {
     @BeforeEach
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        val bookResource = BookResource(bookService)
+        val bookResource = BookResource(bookService, userService)
         this.restBookMockMvc = MockMvcBuilders.standaloneSetup(bookResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -192,8 +203,15 @@ class BookResourceIT {
         // Initialize the database
         bookRepository.saveAndFlush(book)
 
+        // Create security-aware mockMvc
+        restBookMockMvc = MockMvcBuilders
+            .webAppContextSetup(context)
+            .apply<DefaultMockMvcBuilder>(SecurityMockMvcConfigurers.springSecurity())
+            .build()
+
         // Get all the bookList
-        restBookMockMvc.perform(get("/api/books?sort=id,desc"))
+        restBookMockMvc.perform(get("/api/books?sort=id,desc")
+            .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN")))
             .andExpect(status().isOk)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(book.id?.toInt())))
