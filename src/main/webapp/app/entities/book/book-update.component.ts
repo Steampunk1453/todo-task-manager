@@ -11,6 +11,9 @@ import { IBook, Book } from 'app/shared/model/book.model';
 import { BookService } from './book.service';
 import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
+import { IGenre } from 'app/shared/model/genre.model';
+import { IBookshop } from 'app/shared/model/bookshop.model';
+import { GenreService } from 'app/entities/genre.service';
 
 @Component({
   selector: 'jhi-book-update',
@@ -19,6 +22,9 @@ import { UserService } from 'app/core/user/user.service';
 export class BookUpdateComponent implements OnInit {
   isSaving = false;
   users: IUser[] = [];
+  genres: IGenre[] = [];
+  bookshops: IBookshop[] = [];
+  mapUrls: any;
 
   editForm = this.fb.group({
     id: [],
@@ -38,6 +44,7 @@ export class BookUpdateComponent implements OnInit {
     protected bookService: BookService,
     protected userService: UserService,
     protected activatedRoute: ActivatedRoute,
+    protected genreService: GenreService,
     private fb: FormBuilder
   ) {}
 
@@ -48,8 +55,19 @@ export class BookUpdateComponent implements OnInit {
         book.startDate = today;
         book.deadline = today;
       }
-
       this.updateForm(book);
+
+      this.genreService.genres().subscribe(genres => {
+        if (genres) {
+          this.genres = genres.filter(g => g.literary !== 0);
+        }
+      });
+      this.bookService.bookshops().subscribe(bookshops => {
+        if (bookshops) {
+          this.bookshops = bookshops;
+        }
+        this.mapUrls = new Map(this.bookshops.map(b => [b.name, b.url]));
+      });
 
       this.userService.query().subscribe((res: HttpResponse<IUser[]>) => (this.users = res.body || []));
     });
@@ -78,6 +96,8 @@ export class BookUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const book = this.createFromForm();
+    // convert booleans to ints
+    book.check = book.check ? 1 : 0;
     if (book.id !== undefined) {
       this.subscribeToSaveResponse(this.bookService.update(book));
     } else {
@@ -94,7 +114,7 @@ export class BookUpdateComponent implements OnInit {
       genre: this.editForm.get(['genre'])!.value,
       editorial: this.editForm.get(['editorial'])!.value,
       bookshop: this.editForm.get(['bookshop'])!.value,
-      bookshopUrl: this.editForm.get(['bookshopUrl'])!.value,
+      bookshopUrl: this.mapUrls.get(this.editForm.get(['bookshop'])!.value),
       startDate: this.editForm.get(['startDate'])!.value ? moment(this.editForm.get(['startDate'])!.value, DATE_TIME_FORMAT) : undefined,
       deadline: this.editForm.get(['deadline'])!.value ? moment(this.editForm.get(['deadline'])!.value, DATE_TIME_FORMAT) : undefined,
       check: this.editForm.get(['check'])!.value,
