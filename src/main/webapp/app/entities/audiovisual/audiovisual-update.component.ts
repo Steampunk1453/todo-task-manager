@@ -14,6 +14,7 @@ import { UserService } from 'app/core/user/user.service';
 import { ITitle } from 'app/shared/model/title.model';
 import { IGenre } from 'app/shared/model/genre.model';
 import { IPlatform } from 'app/shared/model/platform.model';
+import { GenreService } from 'app/entities/genre.service';
 
 @Component({
   selector: 'jhi-audiovisual-update',
@@ -30,6 +31,7 @@ export class AudiovisualUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     title: [null, [Validators.required]],
+    suggestedTitle: [],
     genre: [],
     platform: [],
     platformUrl: [],
@@ -43,6 +45,7 @@ export class AudiovisualUpdateComponent implements OnInit {
     protected audiovisualService: AudiovisualService,
     protected userService: UserService,
     protected activatedRoute: ActivatedRoute,
+    protected genreService: GenreService,
     private fb: FormBuilder
   ) {}
 
@@ -61,7 +64,7 @@ export class AudiovisualUpdateComponent implements OnInit {
         this.titles = titles;
       }
     });
-    this.audiovisualService.genres().subscribe(genres => {
+    this.genreService.genres().subscribe(genres => {
       if (genres) {
         this.genres = genres.filter(g => g.literary !== 1);
       }
