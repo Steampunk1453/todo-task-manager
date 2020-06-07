@@ -53,6 +53,10 @@ export class BookService {
     return this.http.get<IBookshop[]>(SERVER_API_URL + 'api/bookshops');
   }
 
+  editorials(): Observable<IBookshop[]> {
+    return this.http.get<IBookshop[]>(SERVER_API_URL + 'api/editorials');
+  }
+
   protected convertDateFromClient(book: IBook): IBook {
     const copy: IBook = Object.assign({}, book, {
       startDate: book.startDate && book.startDate.isValid() ? book.startDate.toJSON() : undefined,

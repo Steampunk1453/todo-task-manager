@@ -14,6 +14,7 @@ import { UserService } from 'app/core/user/user.service';
 import { IGenre } from 'app/shared/model/genre.model';
 import { IBookshop } from 'app/shared/model/bookshop.model';
 import { GenreService } from 'app/entities/genre.service';
+import { IEditorial } from 'app/shared/model/editorial.model';
 
 @Component({
   selector: 'jhi-book-update',
@@ -24,7 +25,9 @@ export class BookUpdateComponent implements OnInit {
   users: IUser[] = [];
   genres: IGenre[] = [];
   bookshops: IBookshop[] = [];
-  mapUrls: any;
+  editorials: IEditorial[] = [];
+  mapEditorialUrls: any;
+  mapBookshopUrls: any;
 
   editForm = this.fb.group({
     id: [],
@@ -62,11 +65,17 @@ export class BookUpdateComponent implements OnInit {
           this.genres = genres.filter(g => g.literary !== 0);
         }
       });
+      this.bookService.editorials().subscribe(editorials => {
+        if (editorials) {
+          this.editorials = editorials;
+        }
+        this.mapEditorialUrls = new Map(this.editorials.map(b => [b.name, b.url]));
+      });
       this.bookService.bookshops().subscribe(bookshops => {
         if (bookshops) {
           this.bookshops = bookshops;
         }
-        this.mapUrls = new Map(this.bookshops.map(b => [b.name, b.url]));
+        this.mapBookshopUrls = new Map(this.bookshops.map(b => [b.name, b.url]));
       });
 
       this.userService.query().subscribe((res: HttpResponse<IUser[]>) => (this.users = res.body || []));
@@ -113,8 +122,9 @@ export class BookUpdateComponent implements OnInit {
       author: this.editForm.get(['author'])!.value,
       genre: this.editForm.get(['genre'])!.value,
       editorial: this.editForm.get(['editorial'])!.value,
+      editorialUrl: this.mapBookshopUrls.get(this.editForm.get(['bookshop'])!.value),
       bookshop: this.editForm.get(['bookshop'])!.value,
-      bookshopUrl: this.mapUrls.get(this.editForm.get(['bookshop'])!.value),
+      bookshopUrl: this.mapBookshopUrls.get(this.editForm.get(['bookshop'])!.value),
       startDate: this.editForm.get(['startDate'])!.value ? moment(this.editForm.get(['startDate'])!.value, DATE_TIME_FORMAT) : undefined,
       deadline: this.editForm.get(['deadline'])!.value ? moment(this.editForm.get(['deadline'])!.value, DATE_TIME_FORMAT) : undefined,
       check: this.editForm.get(['check'])!.value,

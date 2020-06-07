@@ -51,6 +51,7 @@ class CacheConfiguration(jHipsterProperties: JHipsterProperties) {
             createCache(cm, org.task.manager.domain.Platform::class.java.name)
             createCache(cm, org.task.manager.domain.Book::class.java.name)
             createCache(cm, org.task.manager.domain.Bookshop::class.java.name)
+            createCache(cm, org.task.manager.domain.Editorial::class.java.name)
             // jhipster-needle-ehcache-add-entry
         }
     }
