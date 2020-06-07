@@ -7,12 +7,12 @@ export interface IBook {
   author?: string;
   genre?: string;
   editorial?: string;
-  editorialUrl?: string;
   bookshop?: string;
   bookshopUrl?: string;
   startDate?: Moment;
   deadline?: Moment;
   check?: number;
+  editorialUrl?: string;
   user?: IUser;
 }
 
@@ -23,12 +23,12 @@ export class Book implements IBook {
     public author?: string,
     public genre?: string,
     public editorial?: string,
-    public editorialUrl?: string,
     public bookshop?: string,
     public bookshopUrl?: string,
     public startDate?: Moment,
     public deadline?: Moment,
     public check?: number,
+    public editorialUrl?: string,
     public user?: IUser
   ) {}
 }
