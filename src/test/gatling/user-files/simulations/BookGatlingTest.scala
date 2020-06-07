@@ -81,6 +81,7 @@ class BookGatlingTest extends Simulation {
                 , "startDate":"2020-01-01T00:00:00.000Z"
                 , "deadline":"2020-01-01T00:00:00.000Z"
                 , "check":"0"
+                , "editorialUrl":"SAMPLE_TEXT"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_book_url"))).exitHereIfFailed

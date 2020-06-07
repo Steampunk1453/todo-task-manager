@@ -118,6 +118,7 @@ class BookResourceIT {
         assertThat(testBook.startDate).isEqualTo(DEFAULT_START_DATE)
         assertThat(testBook.deadline).isEqualTo(DEFAULT_DEADLINE)
         assertThat(testBook.check).isEqualTo(DEFAULT_CHECK)
+        assertThat(testBook.editorialUrl).isEqualTo(DEFAULT_EDITORIAL_URL)
     }
 
     @Test
@@ -224,6 +225,7 @@ class BookResourceIT {
             .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].deadline").value(hasItem(DEFAULT_DEADLINE.toString())))
             .andExpect(jsonPath("$.[*].check").value(hasItem(DEFAULT_CHECK)))
+            .andExpect(jsonPath("$.[*].editorialUrl").value(hasItem(DEFAULT_EDITORIAL_URL)))
     }
 
     @Test
@@ -249,6 +251,7 @@ class BookResourceIT {
             .andExpect(jsonPath("$.startDate").value(DEFAULT_START_DATE.toString()))
             .andExpect(jsonPath("$.deadline").value(DEFAULT_DEADLINE.toString()))
             .andExpect(jsonPath("$.check").value(DEFAULT_CHECK))
+            .andExpect(jsonPath("$.editorialUrl").value(DEFAULT_EDITORIAL_URL))
     }
 
     @Test
@@ -281,6 +284,7 @@ class BookResourceIT {
         updatedBook.startDate = UPDATED_START_DATE
         updatedBook.deadline = UPDATED_DEADLINE
         updatedBook.check = UPDATED_CHECK
+        updatedBook.editorialUrl = UPDATED_EDITORIAL_URL
 
         restBookMockMvc.perform(
             put("/api/books")
@@ -301,6 +305,7 @@ class BookResourceIT {
         assertThat(testBook.startDate).isEqualTo(UPDATED_START_DATE)
         assertThat(testBook.deadline).isEqualTo(UPDATED_DEADLINE)
         assertThat(testBook.check).isEqualTo(UPDATED_CHECK)
+        assertThat(testBook.editorialUrl).isEqualTo(UPDATED_EDITORIAL_URL)
     }
 
     @Test
@@ -373,6 +378,9 @@ class BookResourceIT {
         private const val DEFAULT_CHECK: Int = 1
         private const val UPDATED_CHECK: Int = 2
 
+        private const val DEFAULT_EDITORIAL_URL = "AAAAAAAAAA"
+        private const val UPDATED_EDITORIAL_URL = "BBBBBBBBBB"
+
         /**
          * Create an entity for this test.
          *
@@ -390,7 +398,8 @@ class BookResourceIT {
                 bookshopUrl = DEFAULT_BOOKSHOP_URL,
                 startDate = DEFAULT_START_DATE,
                 deadline = DEFAULT_DEADLINE,
-                check = DEFAULT_CHECK
+                check = DEFAULT_CHECK,
+                editorialUrl = DEFAULT_EDITORIAL_URL
             )
 
             return book
@@ -413,7 +422,8 @@ class BookResourceIT {
                 bookshopUrl = UPDATED_BOOKSHOP_URL,
                 startDate = UPDATED_START_DATE,
                 deadline = UPDATED_DEADLINE,
-                check = UPDATED_CHECK
+                check = UPDATED_CHECK,
+                editorialUrl = UPDATED_EDITORIAL_URL
             )
 
             return book

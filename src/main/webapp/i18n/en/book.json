@@ -25,6 +25,7 @@
       "startDate": "Start Date",
       "deadline": "Deadline",
       "check": "Check",
+      "editorialUrl": "Editorial Url",
       "user": "User"
     }
   }
