@@ -22,6 +22,7 @@ import org.task.manager.repository.GenreRepository
 import org.task.manager.web.rest.errors.BadRequestAlertException
 
 private const val ENTITY_NAME = "genre"
+
 /**
  * REST controller for managing [org.task.manager.domain.Genre].
  */
@@ -33,6 +34,7 @@ class GenreResource(
 ) {
 
     private val log = LoggerFactory.getLogger(javaClass)
+
     @Value("\${jhipster.clientApp.name}")
     private var applicationName: String? = null
 
@@ -78,11 +80,12 @@ class GenreResource(
             .headers(
                 HeaderUtil.createEntityUpdateAlert(
                     applicationName, true, ENTITY_NAME,
-                     genre.id.toString()
+                    genre.id.toString()
                 )
             )
             .body(result)
     }
+
     /**
      * `GET  /genres` : get all the genres.
      *
@@ -107,6 +110,7 @@ class GenreResource(
         val genre = genreRepository.findById(id)
         return ResponseUtil.wrapOrNotFound(genre)
     }
+
     /**
      *  `DELETE  /genres/:id` : delete the "id" genre.
      *
