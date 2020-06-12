@@ -83,7 +83,7 @@ class BookshopResourceIT {
 
         // Create the Bookshop
         restBookshopMockMvc.perform(
-            post("/api/bookshops")
+            post("/api/management/bookshops")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(bookshop))
         ).andExpect(status().isCreated)
@@ -106,7 +106,7 @@ class BookshopResourceIT {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restBookshopMockMvc.perform(
-            post("/api/bookshops")
+            post("/api/management/bookshops")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(bookshop))
         ).andExpect(status().isBadRequest)
@@ -126,7 +126,7 @@ class BookshopResourceIT {
         // Create the Bookshop, which fails.
 
         restBookshopMockMvc.perform(
-            post("/api/bookshops")
+            post("/api/management/bookshops")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(bookshop))
         ).andExpect(status().isBadRequest)
@@ -145,7 +145,7 @@ class BookshopResourceIT {
         // Create the Bookshop, which fails.
 
         restBookshopMockMvc.perform(
-            post("/api/bookshops")
+            post("/api/management/bookshops")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(bookshop))
         ).andExpect(status().isBadRequest)
@@ -212,7 +212,7 @@ class BookshopResourceIT {
         updatedBookshop.url = UPDATED_URL
 
         restBookshopMockMvc.perform(
-            put("/api/bookshops")
+            put("/api/management/bookshops")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(updatedBookshop))
         ).andExpect(status().isOk)
@@ -234,7 +234,7 @@ class BookshopResourceIT {
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restBookshopMockMvc.perform(
-            put("/api/bookshops")
+            put("/api/management/bookshops")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(bookshop))
         ).andExpect(status().isBadRequest)
@@ -257,7 +257,7 @@ class BookshopResourceIT {
 
         // Delete the bookshop
         restBookshopMockMvc.perform(
-            delete("/api/bookshops/{id}", id)
+            delete("/api/management/bookshops/{id}", id)
                 .accept(MediaType.APPLICATION_JSON)
         ).andExpect(status().isNoContent)
 

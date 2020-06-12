@@ -6,7 +6,7 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    
+
     <!--
         Added the entity Book.
     -->
@@ -25,6 +25,9 @@
                 <constraints nullable="true" />
             </column>
             <column name="editorial" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="editorial_url" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="bookshop" type="varchar(255)">
@@ -75,6 +78,7 @@
             <column name="genre" type="string"/>
             <column name="editorial" type="string"/>
             <column name="bookshop" type="string"/>
+            <column name="editorial_url" type="string"/>z
             <column name="bookshop_url" type="string"/>
             <column name="start_date" type="datetime"/>
             <column name="deadline" type="datetime"/>

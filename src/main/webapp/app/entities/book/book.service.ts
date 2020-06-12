@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IBook } from 'app/shared/model/book.model';
+import { IBookshop } from 'app/shared/model/bookshop.model';
 
 type EntityResponseType = HttpResponse<IBook>;
 type EntityArrayResponseType = HttpResponse<IBook[]>;
@@ -46,6 +47,14 @@ export class BookService {
 
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+
+  bookshops(): Observable<IBookshop[]> {
+    return this.http.get<IBookshop[]>(SERVER_API_URL + 'api/bookshops');
+  }
+
+  editorials(): Observable<IBookshop[]> {
+    return this.http.get<IBookshop[]>(SERVER_API_URL + 'api/editorials');
   }
 
   protected convertDateFromClient(book: IBook): IBook {

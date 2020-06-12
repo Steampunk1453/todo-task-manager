@@ -8,7 +8,6 @@ import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IAudiovisual } from 'app/shared/model/audiovisual.model';
 import { ITitle } from 'app/shared/model/title.model';
-import { IGenre } from 'app/shared/model/genre.model';
 import { IPlatform } from 'app/shared/model/platform.model';
 
 type EntityResponseType = HttpResponse<IAudiovisual>;
@@ -53,10 +52,6 @@ export class AudiovisualService {
 
   titles(): Observable<ITitle[]> {
     return this.http.get<ITitle[]>(SERVER_API_URL + 'api/titles');
-  }
-
-  genres(): Observable<IGenre[]> {
-    return this.http.get<IGenre[]>(SERVER_API_URL + 'api/genres');
   }
 
   platforms(): Observable<IPlatform[]> {

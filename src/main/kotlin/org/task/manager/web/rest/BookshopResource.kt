@@ -43,7 +43,7 @@ class BookshopResource(
      * @return the [ResponseEntity] with status `201 (Created)` and with body the new bookshop, or with status `400 (Bad Request)` if the bookshop has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/bookshops")
+    @PostMapping("/management/bookshops")
     fun createBookshop(@Valid @RequestBody bookshop: Bookshop): ResponseEntity<Bookshop> {
         log.debug("REST request to save Bookshop : {}", bookshop)
         if (bookshop.id != null) {
@@ -67,7 +67,7 @@ class BookshopResource(
      * or with status `500 (Internal Server Error)` if the bookshop couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/bookshops")
+    @PutMapping("/management/bookshops")
     fun updateBookshop(@Valid @RequestBody bookshop: Bookshop): ResponseEntity<Bookshop> {
         log.debug("REST request to update Bookshop : {}", bookshop)
         if (bookshop.id == null) {
@@ -113,7 +113,7 @@ class BookshopResource(
      * @param id the id of the bookshop to delete.
      * @return the [ResponseEntity] with status `204 (NO_CONTENT)`.
      */
-    @DeleteMapping("/bookshops/{id}")
+    @DeleteMapping("/management/bookshops/{id}")
     fun deleteBookshop(@PathVariable id: Long): ResponseEntity<Void> {
         log.debug("REST request to delete Bookshop : {}", id)
 

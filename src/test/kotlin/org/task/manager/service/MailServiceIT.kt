@@ -207,7 +207,7 @@ class MailServiceIT {
     }
 
     @Test
-    fun testSendNotificationMail() {
+    fun testSendAudioVisualNotificationMail() {
         val user = User(
             langKey = DEFAULT_LANGUAGE,
             login = "john",
@@ -220,7 +220,30 @@ class MailServiceIT {
             startDate = true,
             user = user
         )
-        mailService.sendNotificationMail(notification)
+        mailService.sendAudiovisualNotificationMail(notification)
+        verify(javaMailSender).send(messageCaptor.capture())
+        val message = messageCaptor.value
+        assertThat(message.allRecipients[0].toString()).isEqualTo(user.email)
+        assertThat(message.from[0].toString()).isEqualTo(jHipsterProperties.mail.from)
+        assertThat(message.content.toString()).isNotEmpty()
+        assertThat(message.dataHandler.contentType).isEqualTo("text/html;charset=UTF-8")
+    }
+
+    @Test
+    fun testSendBookNotificationMail() {
+        val user = User(
+            langKey = DEFAULT_LANGUAGE,
+            login = "john",
+            email = "john.doe@example.com"
+        )
+        val notification = NotificationDTO(
+            name = "name",
+            message = "message",
+            url = "url",
+            startDate = true,
+            user = user
+        )
+        mailService.sendBookNotificationMail(notification)
         verify(javaMailSender).send(messageCaptor.capture())
         val message = messageCaptor.value
         assertThat(message.allRecipients[0].toString()).isEqualTo(user.email)

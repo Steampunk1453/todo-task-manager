@@ -12,6 +12,7 @@ export interface IBook {
   startDate?: Moment;
   deadline?: Moment;
   check?: number;
+  editorialUrl?: string;
   user?: IUser;
 }
 
@@ -27,6 +28,7 @@ export class Book implements IBook {
     public startDate?: Moment,
     public deadline?: Moment,
     public check?: number,
+    public editorialUrl?: string,
     public user?: IUser
   ) {}
 }

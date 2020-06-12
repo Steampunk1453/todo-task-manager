@@ -14,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver
 import org.springframework.http.MediaType
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors
+import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
@@ -22,13 +24,16 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.validation.Validator
+import org.springframework.web.context.WebApplicationContext
 import org.task.manager.ToDoTaskManagerApp
 import org.task.manager.domain.Book
 import org.task.manager.repository.BookRepository
 import org.task.manager.service.BookService
+import org.task.manager.service.UserService
 import org.task.manager.web.rest.errors.ExceptionTranslator
 
 /**
@@ -46,6 +51,9 @@ class BookResourceIT {
     private lateinit var bookService: BookService
 
     @Autowired
+    private lateinit var userService: UserService
+
+    @Autowired
     private lateinit var jacksonMessageConverter: MappingJackson2HttpMessageConverter
 
     @Autowired
@@ -60,6 +68,9 @@ class BookResourceIT {
     @Autowired
     private lateinit var validator: Validator
 
+    @Autowired
+    private lateinit var context: WebApplicationContext
+
     private lateinit var restBookMockMvc: MockMvc
 
     private lateinit var book: Book
@@ -67,7 +78,7 @@ class BookResourceIT {
     @BeforeEach
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        val bookResource = BookResource(bookService)
+        val bookResource = BookResource(bookService, userService)
         this.restBookMockMvc = MockMvcBuilders.standaloneSetup(bookResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -107,6 +118,7 @@ class BookResourceIT {
         assertThat(testBook.startDate).isEqualTo(DEFAULT_START_DATE)
         assertThat(testBook.deadline).isEqualTo(DEFAULT_DEADLINE)
         assertThat(testBook.check).isEqualTo(DEFAULT_CHECK)
+        assertThat(testBook.editorialUrl).isEqualTo(DEFAULT_EDITORIAL_URL)
     }
 
     @Test
@@ -192,8 +204,15 @@ class BookResourceIT {
         // Initialize the database
         bookRepository.saveAndFlush(book)
 
+        // Create security-aware mockMvc
+        restBookMockMvc = MockMvcBuilders
+            .webAppContextSetup(context)
+            .apply<DefaultMockMvcBuilder>(SecurityMockMvcConfigurers.springSecurity())
+            .build()
+
         // Get all the bookList
-        restBookMockMvc.perform(get("/api/books?sort=id,desc"))
+        restBookMockMvc.perform(get("/api/books?sort=id,desc")
+            .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN")))
             .andExpect(status().isOk)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(book.id?.toInt())))
@@ -206,6 +225,7 @@ class BookResourceIT {
             .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].deadline").value(hasItem(DEFAULT_DEADLINE.toString())))
             .andExpect(jsonPath("$.[*].check").value(hasItem(DEFAULT_CHECK)))
+            .andExpect(jsonPath("$.[*].editorialUrl").value(hasItem(DEFAULT_EDITORIAL_URL)))
     }
 
     @Test
@@ -231,6 +251,7 @@ class BookResourceIT {
             .andExpect(jsonPath("$.startDate").value(DEFAULT_START_DATE.toString()))
             .andExpect(jsonPath("$.deadline").value(DEFAULT_DEADLINE.toString()))
             .andExpect(jsonPath("$.check").value(DEFAULT_CHECK))
+            .andExpect(jsonPath("$.editorialUrl").value(DEFAULT_EDITORIAL_URL))
     }
 
     @Test
@@ -263,6 +284,7 @@ class BookResourceIT {
         updatedBook.startDate = UPDATED_START_DATE
         updatedBook.deadline = UPDATED_DEADLINE
         updatedBook.check = UPDATED_CHECK
+        updatedBook.editorialUrl = UPDATED_EDITORIAL_URL
 
         restBookMockMvc.perform(
             put("/api/books")
@@ -283,6 +305,7 @@ class BookResourceIT {
         assertThat(testBook.startDate).isEqualTo(UPDATED_START_DATE)
         assertThat(testBook.deadline).isEqualTo(UPDATED_DEADLINE)
         assertThat(testBook.check).isEqualTo(UPDATED_CHECK)
+        assertThat(testBook.editorialUrl).isEqualTo(UPDATED_EDITORIAL_URL)
     }
 
     @Test
@@ -355,6 +378,9 @@ class BookResourceIT {
         private const val DEFAULT_CHECK: Int = 1
         private const val UPDATED_CHECK: Int = 2
 
+        private const val DEFAULT_EDITORIAL_URL = "AAAAAAAAAA"
+        private const val UPDATED_EDITORIAL_URL = "BBBBBBBBBB"
+
         /**
          * Create an entity for this test.
          *
@@ -372,7 +398,8 @@ class BookResourceIT {
                 bookshopUrl = DEFAULT_BOOKSHOP_URL,
                 startDate = DEFAULT_START_DATE,
                 deadline = DEFAULT_DEADLINE,
-                check = DEFAULT_CHECK
+                check = DEFAULT_CHECK,
+                editorialUrl = DEFAULT_EDITORIAL_URL
             )
 
             return book
@@ -395,7 +422,8 @@ class BookResourceIT {
                 bookshopUrl = UPDATED_BOOKSHOP_URL,
                 startDate = UPDATED_START_DATE,
                 deadline = UPDATED_DEADLINE,
-                check = UPDATED_CHECK
+                check = UPDATED_CHECK,
+                editorialUrl = UPDATED_EDITORIAL_URL
             )
 
             return book

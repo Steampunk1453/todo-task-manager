@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { merge, Subscription } from 'rxjs';
 
 import { LoginModalService } from 'app/core/login/login-modal.service';
 import { AccountService } from 'app/core/auth/account.service';
@@ -14,6 +14,9 @@ import { IAudiovisual } from 'app/shared/model/audiovisual.model';
 import { HttpResponse } from '@angular/common/http';
 import { SERVER_API_URL } from 'app/app.constants';
 import { JhiEventManager } from 'ng-jhipster';
+import { BookService } from 'app/entities/book/book.service';
+import { ICalendar } from 'app/shared/model/calendar.model';
+import { IBook } from 'app/shared/model/book.model';
 
 @Component({
   selector: 'jhi-home',
@@ -21,8 +24,8 @@ import { JhiEventManager } from 'ng-jhipster';
   styleUrls: ['home.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  resourceUrl = SERVER_API_URL + '/audiovisual/';
-  audiovisuals?: IAudiovisual[];
+  resourceUrl = SERVER_API_URL + '/';
+  calendars?: ICalendar[];
   calendarPlugins = [dayGridPlugin, timeGrigPlugin, interactionPlugin];
   calendarWeekends = true;
   calendarEvents: EventInput[] = [];
@@ -34,6 +37,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private accountService: AccountService,
     private loginModalService: LoginModalService,
     private audiovisualService: AudiovisualService,
+    private bookService: BookService,
     private eventManager: JhiEventManager
   ) {}
 
@@ -71,13 +75,37 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   getCalendarData(): void {
-    this.audiovisualService.query().subscribe((res: HttpResponse<IAudiovisual[]>) => this.onSuccess(res.body));
+    this.audiovisualService.query().subscribe((audRes: HttpResponse<IAudiovisual[]>) => {
+      const audiovisualResponse = audRes.body;
+      this.bookService.query().subscribe((boRes: HttpResponse<IBook[]>) => {
+        const bookResponse = boRes.body;
+        this.mergeCalendarData(audiovisualResponse, bookResponse);
+      });
+    });
   }
 
-  protected onSuccess(data: IAudiovisual[] | null): void {
+  mergeCalendarData(audiovisualResponse: any, bookResponse: any): void {
+    const audiovisualPath = 'audiovisual/';
+    const bookPath = 'book/';
+    let responses: any = [];
+    audiovisualResponse.forEach((audiovisual: any) => {
+      audiovisual.path = audiovisualPath;
+    });
+    bookResponse.forEach((book: any) => {
+      book.path = bookPath;
+    });
+    merge([audiovisualResponse, bookResponse]).subscribe(response => {
+      if (response) {
+        responses = responses.concat(response);
+      }
+    });
+    this.mappingResponsesToCalendarEvents(responses);
+  }
+
+  protected mappingResponsesToCalendarEvents(data: any[] | null): void {
     const noDone = 0;
-    this.audiovisuals = data || [];
-    this.calendarEvents = this.audiovisuals
+    this.calendars = data || [];
+    this.calendarEvents = this.calendars
       .filter(obj => {
         return obj.check === noDone;
       })
@@ -86,8 +114,9 @@ export class HomeComponent implements OnInit, OnDestroy {
           title: item.title,
           start: item.startDate?.toDate(),
           end: item.deadline?.toDate(),
-          url: this.resourceUrl + item.id + '/' + 'edit',
-          allDay: true
+          url: this.resourceUrl + item.path + item.id + '/' + 'edit',
+          allDay: true,
+          color: '#375A7F'
         };
       });
   }

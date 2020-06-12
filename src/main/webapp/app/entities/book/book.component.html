@@ -41,8 +41,7 @@
                     <td>{{ book.title }}</td>
                     <td>{{ book.author }}</td>
                     <td>{{ book.genre }}</td>
-                    <td>{{ book.editorial }}</td>
-                    <td>{{ book.bookshop }}</td>
+                    <td><a [href]="[book.editorialUrl]" target="_blank">{{ book.editorial }}</a></td>
                     <td><a [href]="[book.bookshopUrl]" target="_blank">{{ book.bookshop }}</a></td>
                     <td>{{ book.startDate | date:'dd/MM/yy' }}</td>
                     <td>{{ book.deadline | date:'dd/MM/yy' }}</td>

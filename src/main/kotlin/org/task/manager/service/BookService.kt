@@ -43,6 +43,18 @@ class BookService(
     }
 
     /**
+     * Get all the books by user.
+     *
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    fun findAllByUser(pageable: Pageable): Page<Book> {
+        log.debug("Request to get all Books")
+        return bookRepository.findByUserIsCurrentUser(pageable)
+    }
+
+    /**
      * Get one book by id.
      *
      * @param id the id of the entity.
@@ -61,7 +73,6 @@ class BookService(
      */
     fun delete(id: Long) {
         log.debug("Request to delete Book : {}", id)
-
         bookRepository.deleteById(id)
     }
 }

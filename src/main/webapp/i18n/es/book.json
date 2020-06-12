@@ -2,30 +2,30 @@
   "toDoTaskManagerApp": {
     "book": {
       "home": {
-        "title": "Books",
-        "createLabel": "Crear nuevo Book",
-        "createOrEditLabel": "Crear o editar Book",
-        "notFound": "Ningún Books encontrado"
+        "title": "Libros",
+        "createLabel": "Crear nuevo Libro",
+        "createOrEditLabel": "Crear o editar Libro",
+        "notFound": "Ningún Libro encontrado"
       },
-      "created": "Un nuevo Book ha sido creado con el identificador {{ param }}",
-      "updated": "Un Book ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Book ha sido eliminado con el identificador {{ param }}",
+      "created": "Un nuevo Libro ha sido creado con el identificador {{ param }}",
+      "updated": "Un Libro ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Libro ha sido eliminado con el identificador {{ param }}",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Book {{ id }}?"
+        "question": "¿Seguro que quiere eliminar Libro {{ id }}?"
       },
       "detail": {
-        "title": "Book"
+        "title": "Libros"
       },
-      "title": "Title",
-      "author": "Author",
-      "genre": "Genre",
+      "title": "Título",
+      "author": "Autor",
+      "genre": "Género",
       "editorial": "Editorial",
-      "bookshop": "Bookshop",
-      "bookshopUrl": "Bookshop Url",
-      "startDate": "Start Date",
-      "deadline": "Deadline",
-      "check": "Check",
-      "user": "User"
+      "bookshop": "Librería",
+      "bookshopUrl": "Librería Url",
+      "startDate": "Día de inicio",
+      "deadline": "Fecha límite",
+      "check": "Hecho",
+      "user": "Usuario"
     }
   }
 }

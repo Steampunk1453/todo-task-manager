@@ -6,7 +6,7 @@ This app was generated using JHipster 6.8.0, you can find documentation and help
 
 ## To test application
 
-Deployed in Heroku, use a Chromium browser and go to:
+Deployed in Heroku, navigate to:
 
 https://pers-task-manager.herokuapp.com/
 

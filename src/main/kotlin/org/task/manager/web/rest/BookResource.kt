@@ -20,7 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import org.task.manager.domain.Book
+import org.task.manager.security.ADMIN
+import org.task.manager.security.getCurrentUserLogin
+import org.task.manager.security.isCurrentUserInRole
 import org.task.manager.service.BookService
+import org.task.manager.service.UserService
 import org.task.manager.web.rest.errors.BadRequestAlertException
 
 private const val ENTITY_NAME = "book"
@@ -30,7 +34,8 @@ private const val ENTITY_NAME = "book"
 @RestController
 @RequestMapping("/api")
 class BookResource(
-    private val bookService: BookService
+    private val bookService: BookService,
+    private val userService: UserService
 ) {
 
     private val log = LoggerFactory.getLogger(javaClass)
@@ -53,7 +58,11 @@ class BookResource(
                 ENTITY_NAME, "idexists"
             )
         }
+        getCurrentUserLogin()
+            .flatMap(userService::getUserWithAuthoritiesByLogin)
+            .ifPresent { user -> book.user = user }
         val result = bookService.save(book)
+
         return ResponseEntity.created(URI("/api/books/" + result.id))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.id.toString()))
             .body(result)
@@ -96,7 +105,9 @@ class BookResource(
         pageable: Pageable
     ): ResponseEntity<MutableList<Book>> {
         log.debug("REST request to get a page of Books")
-        val page = bookService.findAll(pageable)
+        val page =
+            if (isCurrentUserInRole(ADMIN)) bookService.findAll(pageable)
+            else bookService.findAllByUser(pageable)
         val headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page)
         return ResponseEntity.ok().headers(headers).body(page.content)
     }

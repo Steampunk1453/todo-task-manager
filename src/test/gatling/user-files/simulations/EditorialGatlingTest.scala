@@ -7,9 +7,9 @@ import org.slf4j.LoggerFactory
 import scala.concurrent.duration._
 
 /**
- * Performance test for the Book entity.
+ * Performance test for the Editorial entity.
  */
-class BookGatlingTest extends Simulation {
+class EditorialGatlingTest extends Simulation {
 
     val context: LoggerContext = LoggerFactory.getILoggerFactory.asInstanceOf[LoggerContext]
     // Log all HTTP requests
@@ -43,7 +43,7 @@ class BookGatlingTest extends Simulation {
         "Authorization" -> "${access_token}"
     )
 
-    val scn = scenario("Test the Book entity")
+    val scn = scenario("Test the Editorial entity")
         .exec(http("First unauthenticated request")
         .get("/api/account")
         .headers(headers_http)
@@ -62,38 +62,30 @@ class BookGatlingTest extends Simulation {
         .check(status.is(200)))
         .pause(10)
         .repeat(2) {
-            exec(http("Get all books")
-            .get("/api/books")
+            exec(http("Get all editorials")
+            .get("/api/editorials")
             .headers(headers_http_authenticated)
             .check(status.is(200)))
             .pause(10 seconds, 20 seconds)
-            .exec(http("Create new book")
-            .post("/api/books")
+            .exec(http("Create new editorial")
+            .post("/api/editorials")
             .headers(headers_http_authenticated)
             .body(StringBody("""{
                 "id":null
-                , "title":"SAMPLE_TEXT"
-                , "author":"SAMPLE_TEXT"
-                , "genre":"SAMPLE_TEXT"
-                , "editorial":"SAMPLE_TEXT"
-                , "bookshop":"SAMPLE_TEXT"
-                , "bookshopUrl":"SAMPLE_TEXT"
-                , "startDate":"2020-01-01T00:00:00.000Z"
-                , "deadline":"2020-01-01T00:00:00.000Z"
-                , "check":"0"
-                , "editorialUrl":"SAMPLE_TEXT"
+                , "name":"SAMPLE_TEXT"
+                , "url":"SAMPLE_TEXT"
                 }""")).asJson
             .check(status.is(201))
-            .check(headerRegex("Location", "(.*)").saveAs("new_book_url"))).exitHereIfFailed
+            .check(headerRegex("Location", "(.*)").saveAs("new_editorial_url"))).exitHereIfFailed
             .pause(10)
             .repeat(5) {
-                exec(http("Get created book")
-                .get("${new_book_url}")
+                exec(http("Get created editorial")
+                .get("${new_editorial_url}")
                 .headers(headers_http_authenticated))
                 .pause(10)
             }
-            .exec(http("Delete created book")
-            .delete("${new_book_url}")
+            .exec(http("Delete created editorial")
+            .delete("${new_editorial_url}")
             .headers(headers_http_authenticated))
             .pause(10)
         }

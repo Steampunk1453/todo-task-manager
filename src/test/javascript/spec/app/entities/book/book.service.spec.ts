@@ -24,7 +24,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Book(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', currentDate, currentDate, 0);
+      elemDefault = new Book(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', currentDate, currentDate, 0, 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -80,7 +80,8 @@ describe('Service Tests', () => {
             bookshopUrl: 'BBBBBB',
             startDate: currentDate.format(DATE_TIME_FORMAT),
             deadline: currentDate.format(DATE_TIME_FORMAT),
-            check: 1
+            check: 1,
+            editorialUrl: 'BBBBBB'
           },
           elemDefault
         );
@@ -111,7 +112,8 @@ describe('Service Tests', () => {
             bookshopUrl: 'BBBBBB',
             startDate: currentDate.format(DATE_TIME_FORMAT),
             deadline: currentDate.format(DATE_TIME_FORMAT),
-            check: 1
+            check: 1,
+            editorialUrl: 'BBBBBB'
           },
           elemDefault
         );
