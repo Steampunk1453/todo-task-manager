@@ -16,7 +16,7 @@ import { SERVER_API_URL } from 'app/app.constants';
 import { JhiEventManager } from 'ng-jhipster';
 import { BookService } from 'app/entities/book/book.service';
 import { ICalendar } from 'app/shared/model/calendar.model';
-import { IBookshop } from 'app/shared/model/bookshop.model';
+import { IBook } from 'app/shared/model/book.model';
 
 @Component({
   selector: 'jhi-home',
@@ -24,7 +24,7 @@ import { IBookshop } from 'app/shared/model/bookshop.model';
   styleUrls: ['home.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  resourceUrl = SERVER_API_URL + '/audiovisual/';
+  resourceUrl = SERVER_API_URL + '/';
   calendars?: ICalendar[];
   calendarPlugins = [dayGridPlugin, timeGrigPlugin, interactionPlugin];
   calendarWeekends = true;
@@ -77,7 +77,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   getCalendarData(): void {
     this.audiovisualService.query().subscribe((audRes: HttpResponse<IAudiovisual[]>) => {
       const audiovisualResponse = audRes.body;
-      this.bookService.query().subscribe((boRes: HttpResponse<IBookshop[]>) => {
+      this.bookService.query().subscribe((boRes: HttpResponse<IBook[]>) => {
         const bookResponse = boRes.body;
         this.mergeCalendarData(audiovisualResponse, bookResponse);
       });
@@ -85,7 +85,15 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   mergeCalendarData(audiovisualResponse: any, bookResponse: any): void {
+    const audiovisualPath = 'audiovisual/';
+    const bookPath = 'book/';
     let responses: any = [];
+    audiovisualResponse.forEach((audiovisual: any) => {
+      audiovisual.path = audiovisualPath;
+    });
+    bookResponse.forEach((book: any) => {
+      book.path = bookPath;
+    });
     merge([audiovisualResponse, bookResponse]).subscribe(response => {
       if (response) {
         responses = responses.concat(response);
@@ -106,8 +114,9 @@ export class HomeComponent implements OnInit, OnDestroy {
           title: item.title,
           start: item.startDate?.toDate(),
           end: item.deadline?.toDate(),
-          url: this.resourceUrl + item.id + '/' + 'edit',
-          allDay: true
+          url: this.resourceUrl + item.path + item.id + '/' + 'edit',
+          allDay: true,
+          color: '#375A7F'
         };
       });
   }
