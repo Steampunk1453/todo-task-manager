@@ -23,7 +23,7 @@ class AudiovisualNotificationService(
      *
      * This is scheduled to get fired everyday, at 08:00 (am) in the system.
      */
-    @Scheduled(cron = "0 26 18 * * ?")
+    @Scheduled(cron = "0 00 08 * * ?")
     override fun send() {
         sendAudiovisualsStartingToday()
         sendAudiovisualsEndingToday()

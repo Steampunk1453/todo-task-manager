@@ -23,7 +23,7 @@ class BookNotificationService(
      *
      * This is scheduled to get fired everyday, at 08:10 (am) in the system.
      */
-    @Scheduled(cron = "0 25 18 * * ?")
+    @Scheduled(cron = "0 10 08 * * ?")
     override fun send() {
         sendAudiovisualsStartingToday()
         sendAudiovisualsEndingToday()
