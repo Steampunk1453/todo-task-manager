@@ -22,6 +22,7 @@ import org.task.manager.repository.EditorialRepository
 import org.task.manager.web.rest.errors.BadRequestAlertException
 
 private const val ENTITY_NAME = "editorial"
+
 /**
  * REST controller for managing [org.task.manager.domain.Editorial].
  */
@@ -33,6 +34,7 @@ class EditorialResource(
 ) {
 
     private val log = LoggerFactory.getLogger(javaClass)
+
     @Value("\${jhipster.clientApp.name}")
     private var applicationName: String? = null
 
@@ -78,11 +80,12 @@ class EditorialResource(
             .headers(
                 HeaderUtil.createEntityUpdateAlert(
                     applicationName, true, ENTITY_NAME,
-                     editorial.id.toString()
+                    editorial.id.toString()
                 )
             )
             .body(result)
     }
+
     /**
      * `GET  /editorials` : get all the editorials.
      *
@@ -107,6 +110,7 @@ class EditorialResource(
         val editorial = editorialRepository.findById(id)
         return ResponseUtil.wrapOrNotFound(editorial)
     }
+
     /**
      *  `DELETE  /editorials/:id` : delete the "id" editorial.
      *

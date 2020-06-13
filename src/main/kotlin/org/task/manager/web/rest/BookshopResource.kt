@@ -22,6 +22,7 @@ import org.task.manager.repository.BookshopRepository
 import org.task.manager.web.rest.errors.BadRequestAlertException
 
 private const val ENTITY_NAME = "bookshop"
+
 /**
  * REST controller for managing [org.task.manager.domain.Bookshop].
  */
@@ -33,6 +34,7 @@ class BookshopResource(
 ) {
 
     private val log = LoggerFactory.getLogger(javaClass)
+
     @Value("\${jhipster.clientApp.name}")
     private var applicationName: String? = null
 
@@ -78,11 +80,12 @@ class BookshopResource(
             .headers(
                 HeaderUtil.createEntityUpdateAlert(
                     applicationName, true, ENTITY_NAME,
-                     bookshop.id.toString()
+                    bookshop.id.toString()
                 )
             )
             .body(result)
     }
+
     /**
      * `GET  /bookshops` : get all the bookshops.
      *
@@ -107,6 +110,7 @@ class BookshopResource(
         val bookshop = bookshopRepository.findById(id)
         return ResponseUtil.wrapOrNotFound(bookshop)
     }
+
     /**
      *  `DELETE  /bookshops/:id` : delete the "id" bookshop.
      *

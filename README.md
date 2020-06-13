@@ -8,7 +8,19 @@ This app was generated using JHipster 6.8.0, you can find documentation and help
 
 Deployed in Heroku, navigate to:
 
-https://pers-task-manager.herokuapp.com/
+https://pers-task-manager.herokuapp.com
+
+## Local environment
+
+Run command `./gradlew`
+
+Access to: http://localhost:8080
+
+You can try the default accounts:
+
+Administrator: login="admin" and password="admin"
+
+User: login="user" and password="user"
 
 ## Development
 

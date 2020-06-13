@@ -28,6 +28,7 @@ import org.task.manager.service.UserService
 import org.task.manager.web.rest.errors.BadRequestAlertException
 
 private const val ENTITY_NAME = "book"
+
 /**
  * REST controller for managing [org.task.manager.domain.Book].
  */
@@ -39,6 +40,7 @@ class BookResource(
 ) {
 
     private val log = LoggerFactory.getLogger(javaClass)
+
     @Value("\${jhipster.clientApp.name}")
     private var applicationName: String? = null
 
@@ -88,11 +90,12 @@ class BookResource(
             .headers(
                 HeaderUtil.createEntityUpdateAlert(
                     applicationName, true, ENTITY_NAME,
-                     book.id.toString()
+                    book.id.toString()
                 )
             )
             .body(result)
     }
+
     /**
      * `GET  /books` : get all the books.
      *
@@ -124,6 +127,7 @@ class BookResource(
         val book = bookService.findOne(id)
         return ResponseUtil.wrapOrNotFound(book)
     }
+
     /**
      *  `DELETE  /books/:id` : delete the "id" book.
      *

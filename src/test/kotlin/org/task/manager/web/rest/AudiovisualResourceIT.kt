@@ -17,8 +17,13 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.transaction.annotation.Transactional
@@ -84,7 +89,7 @@ class AudiovisualResourceIT {
 
     @BeforeEach
     fun initTest() {
-        audiovisual = createEntity(em)
+        audiovisual = createEntity()
     }
 
     @Test
@@ -357,8 +362,9 @@ class AudiovisualResourceIT {
          * if they test an entity which requires the current entity.
          */
         @JvmStatic
-        fun createEntity(em: EntityManager): Audiovisual {
-            val audiovisual = Audiovisual(
+        fun createEntity(): Audiovisual {
+
+            return Audiovisual(
                 title = DEFAULT_TITLE,
                 genre = DEFAULT_GENRE,
                 platform = DEFAULT_PLATFORM,
@@ -367,8 +373,6 @@ class AudiovisualResourceIT {
                 deadline = DEFAULT_DEADLINE,
                 check = DEFAULT_CHECK
             )
-
-            return audiovisual
         }
 
         /**
@@ -378,8 +382,8 @@ class AudiovisualResourceIT {
          * if they test an entity which requires the current entity.
          */
         @JvmStatic
-        fun createUpdatedEntity(em: EntityManager): Audiovisual {
-            val audiovisual = Audiovisual(
+        fun createUpdatedEntity(): Audiovisual {
+            return Audiovisual(
                 title = UPDATED_TITLE,
                 genre = UPDATED_GENRE,
                 platform = UPDATED_PLATFORM,
@@ -388,8 +392,6 @@ class AudiovisualResourceIT {
                 deadline = UPDATED_DEADLINE,
                 check = UPDATED_CHECK
             )
-
-            return audiovisual
         }
     }
 }

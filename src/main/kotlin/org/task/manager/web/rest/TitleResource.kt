@@ -22,6 +22,7 @@ import org.task.manager.repository.TitleRepository
 import org.task.manager.web.rest.errors.BadRequestAlertException
 
 private const val ENTITY_NAME = "title"
+
 /**
  * REST controller for managing [org.task.manager.domain.Title].
  */
@@ -33,6 +34,7 @@ class TitleResource(
 ) {
 
     private val log = LoggerFactory.getLogger(javaClass)
+
     @Value("\${jhipster.clientApp.name}")
     private var applicationName: String? = null
 
@@ -78,11 +80,12 @@ class TitleResource(
             .headers(
                 HeaderUtil.createEntityUpdateAlert(
                     applicationName, true, ENTITY_NAME,
-                     title.id.toString()
+                    title.id.toString()
                 )
             )
             .body(result)
     }
+
     /**
      * `GET  /titles` : get all the titles.
      *
@@ -92,7 +95,7 @@ class TitleResource(
     @GetMapping("/titles")
     fun getAllTitles(): MutableList<Title> {
         log.debug("REST request to get all Titles")
-       return titleRepository.findAll()
+        return titleRepository.findAll()
     }
 
     /**
@@ -107,6 +110,7 @@ class TitleResource(
         val title = titleRepository.findById(id)
         return ResponseUtil.wrapOrNotFound(title)
     }
+
     /**
      *  `DELETE  /titles/:id` : delete the "id" title.
      *
