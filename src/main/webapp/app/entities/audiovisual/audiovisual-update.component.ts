@@ -5,7 +5,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
+import { DATE_TIME_FORMAT, FALSE, TRUE } from 'app/shared/constants/input.constants';
 
 import { IAudiovisual, Audiovisual } from 'app/shared/model/audiovisual.model';
 import { AudiovisualService } from './audiovisual.service';
@@ -66,7 +66,7 @@ export class AudiovisualUpdateComponent implements OnInit {
     });
     this.genreService.genres().subscribe(genres => {
       if (genres) {
-        this.genres = genres.filter(g => g.literary !== 1);
+        this.genres = genres.filter(g => g.literary !== TRUE);
       }
     });
     this.audiovisualService.platforms().subscribe(platforms => {
@@ -99,7 +99,7 @@ export class AudiovisualUpdateComponent implements OnInit {
     this.isSaving = true;
     const audiovisual = this.createFromForm();
     // convert booleans to ints
-    audiovisual.check = audiovisual.check ? 1 : 0;
+    audiovisual.check = audiovisual.check ? TRUE : FALSE;
     if (audiovisual.id !== undefined) {
       this.subscribeToSaveResponse(this.audiovisualService.update(audiovisual));
     } else {
