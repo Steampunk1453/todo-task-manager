@@ -127,8 +127,12 @@ export class BookUpdateComponent implements OnInit {
       editorialUrl: this.mapEditorialUrls.get(this.editForm.get(['editorial'])!.value),
       bookshop: this.editForm.get(['bookshop'])!.value,
       bookshopUrl: this.mapBookshopUrls.get(this.editForm.get(['bookshop'])!.value),
-      startDate: this.editForm.get(['startDate'])!.value ? moment(this.editForm.get(['startDate'])!.value, DATE_TIME_FORMAT) : undefined,
-      deadline: this.editForm.get(['deadline'])!.value ? moment(this.editForm.get(['deadline'])!.value, DATE_TIME_FORMAT) : undefined,
+      startDate: this.editForm.get(['startDate'])!.value
+        ? moment(this.editForm.get(['startDate'])!.value, DATE_TIME_FORMAT).add(1, 'seconds')
+        : undefined,
+      deadline: this.editForm.get(['deadline'])!.value
+        ? moment(this.editForm.get(['deadline'])!.value, DATE_TIME_FORMAT).add(1, 'seconds')
+        : undefined,
       check: this.editForm.get(['check'])!.value,
       user: this.editForm.get(['user'])!.value
     };

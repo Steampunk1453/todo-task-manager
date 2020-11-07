@@ -119,8 +119,12 @@ export class AudiovisualUpdateComponent implements OnInit {
       genre: this.editForm.get(['genre'])!.value,
       platform: this.editForm.get(['platform'])!.value,
       platformUrl: this.mapUrls.get(this.editForm.get(['platform'])!.value),
-      startDate: this.editForm.get(['startDate'])!.value ? moment(this.editForm.get(['startDate'])!.value, DATE_TIME_FORMAT) : undefined,
-      deadline: this.editForm.get(['deadline'])!.value ? moment(this.editForm.get(['deadline'])!.value, DATE_TIME_FORMAT) : undefined,
+      startDate: this.editForm.get(['startDate'])!.value
+        ? moment(this.editForm.get(['startDate'])!.value, DATE_TIME_FORMAT).add(1, 'seconds')
+        : undefined,
+      deadline: this.editForm.get(['deadline'])!.value
+        ? moment(this.editForm.get(['deadline'])!.value, DATE_TIME_FORMAT).add(1, 'seconds')
+        : undefined,
       check: this.editForm.get(['check'])!.value,
       user: this.editForm.get(['user'])!.value
     };
