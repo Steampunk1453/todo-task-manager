@@ -18,6 +18,8 @@ import { BookService } from 'app/entities/book/book.service';
 import { ICalendar } from 'app/shared/model/calendar.model';
 import { IBook } from 'app/shared/model/book.model';
 
+const blueColor = '#375A7F';
+
 @Component({
   selector: 'jhi-home',
   templateUrl: './home.component.html',
@@ -113,10 +115,10 @@ export class HomeComponent implements OnInit, OnDestroy {
         return {
           title: item.title,
           start: item.startDate?.toDate(),
-          end: item.deadline?.toDate(),
+          end: item.deadline?.add(1, 'day').toDate(),
           url: this.resourceUrl + item.path + item.id + '/' + 'edit',
           allDay: true,
-          color: '#375A7F'
+          color: blueColor
         };
       });
   }
