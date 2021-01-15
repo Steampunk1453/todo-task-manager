@@ -5,7 +5,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
+import { DATE_TIME_FORMAT, FALSE, TRUE } from 'app/shared/constants/input.constants';
 
 import { IAudiovisual, Audiovisual } from 'app/shared/model/audiovisual.model';
 import { AudiovisualService } from './audiovisual.service';
@@ -66,7 +66,7 @@ export class AudiovisualUpdateComponent implements OnInit {
     });
     this.genreService.genres().subscribe(genres => {
       if (genres) {
-        this.genres = genres.filter(g => g.literary !== 1);
+        this.genres = genres.filter(g => g.literary !== TRUE);
       }
     });
     this.audiovisualService.platforms().subscribe(platforms => {
@@ -99,7 +99,7 @@ export class AudiovisualUpdateComponent implements OnInit {
     this.isSaving = true;
     const audiovisual = this.createFromForm();
     // convert booleans to ints
-    audiovisual.check = audiovisual.check ? 1 : 0;
+    audiovisual.check = audiovisual.check ? TRUE : FALSE;
     if (audiovisual.id !== undefined) {
       this.subscribeToSaveResponse(this.audiovisualService.update(audiovisual));
     } else {
@@ -119,8 +119,12 @@ export class AudiovisualUpdateComponent implements OnInit {
       genre: this.editForm.get(['genre'])!.value,
       platform: this.editForm.get(['platform'])!.value,
       platformUrl: this.mapUrls.get(this.editForm.get(['platform'])!.value),
-      startDate: this.editForm.get(['startDate'])!.value ? moment(this.editForm.get(['startDate'])!.value, DATE_TIME_FORMAT) : undefined,
-      deadline: this.editForm.get(['deadline'])!.value ? moment(this.editForm.get(['deadline'])!.value, DATE_TIME_FORMAT) : undefined,
+      startDate: this.editForm.get(['startDate'])!.value
+        ? moment(this.editForm.get(['startDate'])!.value, DATE_TIME_FORMAT).add(1, 'seconds')
+        : undefined,
+      deadline: this.editForm.get(['deadline'])!.value
+        ? moment(this.editForm.get(['deadline'])!.value, DATE_TIME_FORMAT).add(1, 'seconds')
+        : undefined,
       check: this.editForm.get(['check'])!.value,
       user: this.editForm.get(['user'])!.value
     };

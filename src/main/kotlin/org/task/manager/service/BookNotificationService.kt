@@ -21,31 +21,22 @@ class BookNotificationService(
     /**
      * Send notification when is one day left to the deadline
      *
-     * This is scheduled to get fired everyday, at 08:10 (am) in the system.
+     * This is scheduled to get fired everyday, at random time between 8:17 & 20:17 h in the system
      */
-    @Scheduled(cron = "0 10 08 * * ?")
+    @Scheduled(cron = "0 17 #{new java.util.Random().nextInt(20 - 8) + 8}  * * ?")
     override fun send() {
-        sendAudiovisualsStartingToday()
         sendAudiovisualsEndingToday()
-    }
-
-    private fun sendAudiovisualsStartingToday() {
-        val booksStartingToday = bookRepository.findAllByStartDateBetweenAndCheck(Instant.now(),
-            Instant.now().plus(1, ChronoUnit.DAYS), IS_CHECK)
-        val isStartDate = true
-        sendToMail(booksStartingToday, isStartDate)
     }
 
     private fun sendAudiovisualsEndingToday() {
         val booksEndingToday = bookRepository.findAllByDeadlineBetweenAndCheck(Instant.now(),
             Instant.now().plus(1, ChronoUnit.DAYS), IS_CHECK)
-        val isStartDate = false
-        sendToMail(booksEndingToday, isStartDate)
+        sendToMail(booksEndingToday)
     }
 
-    private fun sendToMail(books: List<Book>, isStartDate: Boolean) {
+    private fun sendToMail(books: List<Book>) {
         for (book in books) {
-            mailService.sendBookNotificationMail(book.toDto(isStartDate))
+            mailService.sendBookNotificationMail(book.toDto(false))
         }
     }
 }

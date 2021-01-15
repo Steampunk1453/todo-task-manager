@@ -5,7 +5,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
+import { DATE_TIME_FORMAT, FALSE, TRUE } from 'app/shared/constants/input.constants';
 
 import { IBook, Book } from 'app/shared/model/book.model';
 import { BookService } from './book.service';
@@ -63,7 +63,7 @@ export class BookUpdateComponent implements OnInit {
 
       this.genreService.genres().subscribe(genres => {
         if (genres) {
-          this.genres = genres.filter(g => g.literary !== 0);
+          this.genres = genres.filter(g => g.literary !== FALSE);
         }
       });
       this.bookService.editorials().subscribe(editorials => {
@@ -108,7 +108,7 @@ export class BookUpdateComponent implements OnInit {
     this.isSaving = true;
     const book = this.createFromForm();
     // convert booleans to ints
-    book.check = book.check ? 1 : 0;
+    book.check = book.check ? TRUE : FALSE;
     if (book.id !== undefined) {
       this.subscribeToSaveResponse(this.bookService.update(book));
     } else {
@@ -127,8 +127,12 @@ export class BookUpdateComponent implements OnInit {
       editorialUrl: this.mapEditorialUrls.get(this.editForm.get(['editorial'])!.value),
       bookshop: this.editForm.get(['bookshop'])!.value,
       bookshopUrl: this.mapBookshopUrls.get(this.editForm.get(['bookshop'])!.value),
-      startDate: this.editForm.get(['startDate'])!.value ? moment(this.editForm.get(['startDate'])!.value, DATE_TIME_FORMAT) : undefined,
-      deadline: this.editForm.get(['deadline'])!.value ? moment(this.editForm.get(['deadline'])!.value, DATE_TIME_FORMAT) : undefined,
+      startDate: this.editForm.get(['startDate'])!.value
+        ? moment(this.editForm.get(['startDate'])!.value, DATE_TIME_FORMAT).add(1, 'seconds')
+        : undefined,
+      deadline: this.editForm.get(['deadline'])!.value
+        ? moment(this.editForm.get(['deadline'])!.value, DATE_TIME_FORMAT).add(1, 'seconds')
+        : undefined,
       check: this.editForm.get(['check'])!.value,
       user: this.editForm.get(['user'])!.value
     };
