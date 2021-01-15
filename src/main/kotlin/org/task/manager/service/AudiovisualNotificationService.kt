@@ -17,35 +17,25 @@ class AudiovisualNotificationService(
     private val audiovisualRepository: AudiovisualRepository,
     private val mailService: MailService
 ) : NotificationService {
-
     /**
      * Send notification when is one day left to the deadline
      *
-     * This is scheduled to get fired everyday, at 08:00 (am) in the system.
+     * This is scheduled to get fired everyday, at random time between 8:03 & 20:03 h in the system.
      */
-    @Scheduled(cron = "0 00 08 * * ?")
+    @Scheduled(cron = "0 03 #{new java.util.Random().nextInt(20 - 8) + 8}  * * ?")
     override fun send() {
-        sendAudiovisualsStartingToday()
         sendAudiovisualsEndingToday()
-    }
-
-    private fun sendAudiovisualsStartingToday() {
-        val audiovisualsStartingToday = audiovisualRepository.findAllByStartDateBetweenAndCheck(Instant.now(),
-            Instant.now().plus(1, ChronoUnit.DAYS), IS_CHECK)
-        val isStartDate = true
-        sendToMail(audiovisualsStartingToday, isStartDate)
     }
 
     private fun sendAudiovisualsEndingToday() {
         val audiovisualsEndingToday = audiovisualRepository.findAllByDeadlineBetweenAndCheck(Instant.now(),
                 Instant.now().plus(1, ChronoUnit.DAYS), IS_CHECK)
-        val isStartDate = false
-        sendToMail(audiovisualsEndingToday, isStartDate)
+        sendToMail(audiovisualsEndingToday)
     }
 
-    private fun sendToMail(audiovisuals: List<Audiovisual>, isStartDate: Boolean) {
+    private fun sendToMail(audiovisuals: List<Audiovisual>) {
         for (audiovisual in audiovisuals) {
-            mailService.sendAudiovisualNotificationMail(audiovisual.toDto(isStartDate))
+            mailService.sendAudiovisualNotificationMail(audiovisual.toDto(false))
         }
     }
 }
