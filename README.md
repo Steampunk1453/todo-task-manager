@@ -1,10 +1,21 @@
-# ToDoTaskManager
+## About
 
-Application to remind a user different kinds of tasks like watch series, films and read books.  
+Application to remind a user different kinds of tasks like watch series, films and read books.
 
-Web developed with JHipster, Kotlin, Spring Boot, Security with JWT, Angular, TypeScript and Heroku. Following Clean Code and SOLID principles.
+Web developed with KHipster, Kotlin, Spring Boot, Security with JWT, Angular, TypeScript and Heroku. Following Clean Code and SOLID principles.
 
-This app was generated using JHipster 6.8.0, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v6.8.0](https://www.jhipster.tech/documentation-archive/v6.8.0).
+This app was generated using JHipster 6.8.0, you can find documentation and help at: [https://www.jhipster.tech](https://www.jhipster.tech).
+
+## Screenshots
+
+<table>
+  <tr>
+    <td valign="top"><img src="screenshots/login.png"></td>
+    <td valign="top"><img src="screenshots/calendar.png"></td>
+    <td valign="top"><img src="screenshots/series.png"></td>
+    <td valign="top"><img src="screenshots/books.png"></td>
+  </tr>
+ </table>
 
 ## To test application
 
