@@ -89,7 +89,7 @@ class BookResourceIT {
 
     @BeforeEach
     fun initTest() {
-        book = createEntity(em)
+        book = createEntity()
     }
 
     @Test
@@ -388,7 +388,7 @@ class BookResourceIT {
          * if they test an entity which requires the current entity.
          */
         @JvmStatic
-        fun createEntity(em: EntityManager): Book {
+        fun createEntity(): Book {
             val book = Book(
                 title = DEFAULT_TITLE,
                 author = DEFAULT_AUTHOR,
@@ -412,7 +412,7 @@ class BookResourceIT {
          * if they test an entity which requires the current entity.
          */
         @JvmStatic
-        fun createUpdatedEntity(em: EntityManager): Book {
+        fun createUpdatedEntity(): Book {
             val book = Book(
                 title = UPDATED_TITLE,
                 author = UPDATED_AUTHOR,

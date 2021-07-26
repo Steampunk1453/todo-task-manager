@@ -72,7 +72,7 @@ class TitleResourceIT {
 
     @BeforeEach
     fun initTest() {
-        title = createEntity(em)
+        title = createEntity()
     }
 
     @Test
@@ -254,7 +254,7 @@ class TitleResourceIT {
          * if they test an entity which requires the current entity.
          */
         @JvmStatic
-        fun createEntity(em: EntityManager): Title {
+        fun createEntity(): Title {
             val title = Title(
                 name = DEFAULT_NAME
             )
@@ -269,7 +269,7 @@ class TitleResourceIT {
          * if they test an entity which requires the current entity.
          */
         @JvmStatic
-        fun createUpdatedEntity(em: EntityManager): Title {
+        fun createUpdatedEntity(): Title {
             val title = Title(
                 name = UPDATED_NAME
             )

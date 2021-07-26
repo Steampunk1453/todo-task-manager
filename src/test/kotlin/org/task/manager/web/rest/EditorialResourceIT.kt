@@ -72,7 +72,7 @@ class EditorialResourceIT {
 
     @BeforeEach
     fun initTest() {
-        editorial = createEntity(em)
+        editorial = createEntity()
     }
 
     @Test
@@ -262,7 +262,7 @@ class EditorialResourceIT {
          * if they test an entity which requires the current entity.
          */
         @JvmStatic
-        fun createEntity(em: EntityManager): Editorial {
+        fun createEntity(): Editorial {
             val editorial = Editorial(
                 name = DEFAULT_NAME,
                 url = DEFAULT_URL
@@ -278,7 +278,7 @@ class EditorialResourceIT {
          * if they test an entity which requires the current entity.
          */
         @JvmStatic
-        fun createUpdatedEntity(em: EntityManager): Editorial {
+        fun createUpdatedEntity(): Editorial {
             val editorial = Editorial(
                 name = UPDATED_NAME,
                 url = UPDATED_URL
