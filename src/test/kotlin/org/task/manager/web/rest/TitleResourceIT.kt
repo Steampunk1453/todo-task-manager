@@ -26,6 +26,7 @@ import org.springframework.validation.Validator
 import org.task.manager.ToDoTaskManagerApp
 import org.task.manager.domain.Title
 import org.task.manager.repository.TitleRepository
+import org.task.manager.service.AudiovisualClientService
 import org.task.manager.web.rest.errors.ExceptionTranslator
 
 /**
@@ -38,6 +39,9 @@ class TitleResourceIT {
 
     @Autowired
     private lateinit var titleRepository: TitleRepository
+
+    @Autowired
+    private lateinit var audiovisualClientService: AudiovisualClientService
 
     @Autowired
     private lateinit var jacksonMessageConverter: MappingJackson2HttpMessageConverter
@@ -61,7 +65,7 @@ class TitleResourceIT {
     @BeforeEach
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        val titleResource = TitleResource(titleRepository)
+        val titleResource = TitleResource(titleRepository, audiovisualClientService)
         this.restTitleMockMvc = MockMvcBuilders.standaloneSetup(titleResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -146,6 +150,19 @@ class TitleResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(title.id?.toInt())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+    }
+
+    @Test
+    @Transactional
+    fun getAllTitlesInfo() {
+        val filter = "MostPopularTVs"
+        assertNotNull(filter)
+
+        // Get all the titleInfoList
+        restTitleMockMvc.perform(get("/api/titles/info/{filter}", filter))
+            .andExpect(status().isOk)
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].title").value(hasItem(title)))
     }
 
     @Test
