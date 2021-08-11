@@ -123,3 +123,10 @@ jhipster:
 # ===================================================================
 
 # application:
+
+# Audiovisual Api
+
+audiovisual:
+  host: https://imdb-api.com/en/API
+  api-key:
+  limit-size: 25
