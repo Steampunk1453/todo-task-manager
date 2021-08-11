@@ -2,9 +2,6 @@ package org.task.manager.web.rest
 
 import io.github.jhipster.web.util.HeaderUtil
 import io.github.jhipster.web.util.ResponseUtil
-import java.net.URI
-import java.net.URISyntaxException
-import javax.validation.Valid
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
@@ -19,7 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.task.manager.domain.Title
 import org.task.manager.repository.TitleRepository
+import org.task.manager.service.AudiovisualClientService
+import org.task.manager.service.dto.TitleDTO
 import org.task.manager.web.rest.errors.BadRequestAlertException
+import java.net.URI
+import java.net.URISyntaxException
+import javax.validation.Valid
 
 private const val ENTITY_NAME = "title"
 
@@ -30,7 +32,8 @@ private const val ENTITY_NAME = "title"
 @RequestMapping("/api")
 @Transactional
 class TitleResource(
-    private val titleRepository: TitleRepository
+    private val titleRepository: TitleRepository,
+    private val audiovisualClientService: AudiovisualClientService
 ) {
 
     private val log = LoggerFactory.getLogger(javaClass)
@@ -98,6 +101,12 @@ class TitleResource(
         return titleRepository.findAll()
     }
 
+    @GetMapping("/titles/info/{filter}")
+     fun getAllTitlesInfo(@PathVariable filter: String): List<TitleDTO> {
+        log.debug("REST request to get all Titles Info")
+        return audiovisualClientService.getTitles(filter)
+    }
+
     /**
      * `GET  /titles/:id` : get the "id" title.
      *
@@ -120,7 +129,6 @@ class TitleResource(
     @DeleteMapping("/management/titles/{id}")
     fun deleteTitle(@PathVariable id: Long): ResponseEntity<Void> {
         log.debug("REST request to delete Title : {}", id)
-
         titleRepository.deleteById(id)
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build()
