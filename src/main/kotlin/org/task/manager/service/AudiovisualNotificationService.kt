@@ -20,7 +20,7 @@ class AudiovisualNotificationService(
     /**
      * Send notification when is one day left to the deadline
      *
-     * This is scheduled to get fired everyday, at random time between 8:03 & 20:03 h in the system.
+     * This is scheduled to get fired every day, at random time between 8:03 & 20:03 h in the system.
      */
     @Scheduled(cron = "0 03 #{new java.util.Random().nextInt(20 - 8) + 8}  * * ?")
     override fun send() {

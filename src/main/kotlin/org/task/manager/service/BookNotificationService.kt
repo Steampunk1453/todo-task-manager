@@ -21,7 +21,7 @@ class BookNotificationService(
     /**
      * Send notification when is one day left to the deadline
      *
-     * This is scheduled to get fired everyday, at random time between 8:17 & 20:17 h in the system
+     * This is scheduled to get fired every day, at random time between 8:17 & 20:17 h in the system
      */
     @Scheduled(cron = "0 17 #{new java.util.Random().nextInt(20 - 8) + 8}  * * ?")
     override fun send() {
