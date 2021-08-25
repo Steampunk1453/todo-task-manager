@@ -26,7 +26,7 @@ import org.springframework.validation.Validator
 import org.task.manager.ToDoTaskManagerApp
 import org.task.manager.domain.Title
 import org.task.manager.repository.TitleRepository
-import org.task.manager.service.AudiovisualClientService
+import org.task.manager.service.TitleClientService
 import org.task.manager.web.rest.errors.ExceptionTranslator
 
 /**
@@ -41,7 +41,7 @@ class TitleResourceIT {
     private lateinit var titleRepository: TitleRepository
 
     @Autowired
-    private lateinit var audiovisualClientService: AudiovisualClientService
+    private lateinit var titleClientService: TitleClientService
 
     @Autowired
     private lateinit var jacksonMessageConverter: MappingJackson2HttpMessageConverter
@@ -65,7 +65,7 @@ class TitleResourceIT {
     @BeforeEach
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        val titleResource = TitleResource(titleRepository, audiovisualClientService)
+        val titleResource = TitleResource(titleRepository, titleClientService)
         this.restTitleMockMvc = MockMvcBuilders.standaloneSetup(titleResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

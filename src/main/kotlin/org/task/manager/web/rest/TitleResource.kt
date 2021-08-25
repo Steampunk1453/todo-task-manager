@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.task.manager.domain.Title
 import org.task.manager.repository.TitleRepository
-import org.task.manager.service.AudiovisualClientService
+import org.task.manager.service.TitleClientService
 import org.task.manager.service.dto.TitleDTO
 import org.task.manager.web.rest.errors.BadRequestAlertException
 import java.net.URI
@@ -33,7 +33,7 @@ private const val ENTITY_NAME = "title"
 @Transactional
 class TitleResource(
     private val titleRepository: TitleRepository,
-    private val audiovisualClientService: AudiovisualClientService
+    private val titleClientService: TitleClientService
 ) {
 
     private val log = LoggerFactory.getLogger(javaClass)
@@ -104,7 +104,7 @@ class TitleResource(
     @GetMapping("/titles/info/{filter}")
      fun getAllTitlesInfo(@PathVariable filter: String): List<TitleDTO> {
         log.debug("REST request to get all Titles Info")
-        return audiovisualClientService.getTitles(filter)
+        return titleClientService.getTitles(filter)
     }
 
     /**

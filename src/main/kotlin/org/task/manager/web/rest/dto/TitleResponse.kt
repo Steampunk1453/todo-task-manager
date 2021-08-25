@@ -1,12 +1,11 @@
 package org.task.manager.web.rest.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import org.task.manager.service.dto.TitleDTO
-import org.task.manager.service.dto.Type
+import org.task.manager.domain.TitleInfo
 import java.net.URI
 import java.net.URISyntaxException
 
-data class AudiovisualResponse(
+data class TitleResponse(
     @JsonProperty("items")
     val items: List<Item>
 )
@@ -28,11 +27,13 @@ data class Item(
     val officialWebsite: String?
 )
 
-fun Item.toEntity(): TitleDTO = TitleDTO(
+fun Item.toEntity(): TitleInfo = TitleInfo(
+    id = id,
     title = title,
-    type = Type.fromString(type.toString()),
-    genres = genres?.split(","),
-    platform =  if (officialWebsite?.isNotEmpty() == true) getDomainName(officialWebsite) else  "",
+    rank = rank?.toInt(),
+    year = year?.toInt(),
+    type = type,
+    genres = genres,
     website = officialWebsite
 )
 

@@ -1,13 +1,14 @@
 package org.task.manager.client
 
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
-import org.task.manager.web.rest.dto.AudiovisualResponse
+import org.task.manager.web.rest.dto.TitleResponse
 import org.task.manager.web.rest.dto.Item
 
 @Component
-class ImdbAudiovisualClient(private val restTemplate: RestTemplate) : AudiovisualClient {
+class ImdbTitleClient(private val restTemplate: RestTemplate) : TitleClient {
 
     @Value("\${audiovisual.host}")
     private lateinit var host: String
@@ -15,12 +16,16 @@ class ImdbAudiovisualClient(private val restTemplate: RestTemplate) : Audiovisua
     @Value("\${audiovisual.api-key}")
     private lateinit var apiKey: String
 
-    override fun getAudiovisuals(filter: String): AudiovisualResponse {
-        return restTemplate.getForEntity("$host/$filter/$apiKey", AudiovisualResponse::class.java).body
+    private val log = LoggerFactory.getLogger(javaClass)
+
+    override fun getItems(filter: String): TitleResponse {
+        log.info("Get audiovisuals from: $host/$filter/$apiKey")
+        return restTemplate.getForEntity("$host/$filter/$apiKey", TitleResponse::class.java).body
 
     }
 
     override fun getItemInfo(filter: String, titleId: String?): Item {
+        log.debug("Get item info from: $host/$filter/$apiKey/$titleId")
         return restTemplate.getForEntity("$host/$filter/$apiKey/$titleId", Item::class.java).body
     }
 
