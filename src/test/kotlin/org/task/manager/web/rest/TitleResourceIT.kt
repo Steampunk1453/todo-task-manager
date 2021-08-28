@@ -1,7 +1,5 @@
 package org.task.manager.web.rest
 
-import javax.persistence.EntityManager
-import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.Matchers.hasItem
 import org.junit.jupiter.api.BeforeEach
@@ -28,6 +26,8 @@ import org.task.manager.domain.Title
 import org.task.manager.repository.TitleRepository
 import org.task.manager.service.TitleClientService
 import org.task.manager.web.rest.errors.ExceptionTranslator
+import javax.persistence.EntityManager
+import kotlin.test.assertNotNull
 
 /**
  * Integration tests for the [TitleResource] REST controller.
@@ -61,6 +61,7 @@ class TitleResourceIT {
     private lateinit var restTitleMockMvc: MockMvc
 
     private lateinit var title: Title
+
 
     @BeforeEach
     fun setup() {
@@ -155,14 +156,14 @@ class TitleResourceIT {
     @Test
     @Transactional
     fun getAllTitlesInfo() {
-        val filter = "MostPopularTVs"
+        val filter = "TVSeries"
         assertNotNull(filter)
+        titleClientService.saveTitles()
 
-        // Get all the titleInfoList
         restTitleMockMvc.perform(get("/api/titles/info/{filter}", filter))
             .andExpect(status().isOk)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].title").value(hasItem(title)))
+            .andExpect(jsonPath("$.[*].type").value(hasItem("TV_SHOW")))
     }
 
     @Test
@@ -274,21 +275,6 @@ class TitleResourceIT {
         fun createEntity(): Title {
             val title = Title(
                 name = DEFAULT_NAME
-            )
-
-            return title
-        }
-
-        /**
-         * Create an updated entity for this test.
-         *
-         * This is a static method, as tests for other entities might also need it,
-         * if they test an entity which requires the current entity.
-         */
-        @JvmStatic
-        fun createUpdatedEntity(): Title {
-            val title = Title(
-                name = UPDATED_NAME
             )
 
             return title
