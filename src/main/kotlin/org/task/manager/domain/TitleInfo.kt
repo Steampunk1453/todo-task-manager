@@ -5,23 +5,25 @@ import java.io.Serializable
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
+import javax.persistence.Table
 
 @Entity
+@Table(name = "title_info")
 data class TitleInfo(
     @Id
-    val id: String?,
+    var id: String?,
     @Column(name = "title", nullable = false)
-    val title: String,
+    var title: String,
     @Column(name = "rank")
-    val rank: Int?,
+    var rank: Int?,
     @Column(name = "year")
-    val year: Int?,
+    var year: Int?,
     @Column(name = "type", nullable = false)
-    val type: String?,
+    var type: String?,
     @Column(name = "genres", nullable = false)
-    val genres: String?,
-    @Column(name = "website", nullable = false)
-    val website: String?
+    var genres: String?,
+    @Column(name = "website")
+    var website: String?
 ) : Serializable {
 
     override fun equals(other: Any?): Boolean {
