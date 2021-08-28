@@ -2,8 +2,6 @@ package org.task.manager.web.rest.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.task.manager.domain.TitleInfo
-import java.net.URI
-import java.net.URISyntaxException
 
 data class TitleResponse(
     @JsonProperty("items")
@@ -37,12 +35,6 @@ fun Item.toEntity(): TitleInfo = TitleInfo(
     website = officialWebsite
 )
 
-@Throws(URISyntaxException::class)
-private fun getDomainName(url: String): String {
-    val uri = URI(url)
-    val domain = uri.host
-    return if (domain.startsWith("www.")) domain.substring(4, domain.lastIndexOf(".")).capitalize() else domain.capitalize()
-}
 
 
 
