@@ -5,4 +5,6 @@ import org.springframework.stereotype.Repository
 import org.task.manager.domain.TitleInfo
 
 @Repository
-interface TitleInfoRepository : JpaRepository<TitleInfo, String>
+interface TitleInfoRepository : JpaRepository<TitleInfo, String> {
+    fun findAllByType(type: String): List<TitleInfo>
+}
