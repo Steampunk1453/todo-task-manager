@@ -19,13 +19,13 @@ class ImdbTitleClient(private val restTemplate: RestTemplate) : TitleClient {
     private val log = LoggerFactory.getLogger(javaClass)
 
     override fun getItems(filter: String): TitleResponse {
-        log.info("Get audiovisuals from: $host/$filter/$apiKey")
+        log.info("Get items from: $host/$filter/$apiKey")
         return restTemplate.getForEntity("$host/$filter/$apiKey", TitleResponse::class.java).body
 
     }
 
     override fun getItemInfo(filter: String, titleId: String?): Item {
-        log.debug("Get item info from: $host/$filter/$apiKey/$titleId")
+        log.info("Get item info from: $host/$filter/$apiKey/$titleId")
         return restTemplate.getForEntity("$host/$filter/$apiKey/$titleId", Item::class.java).body
     }
 
