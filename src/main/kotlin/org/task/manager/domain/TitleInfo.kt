@@ -13,7 +13,7 @@ data class TitleInfo(
     @Id
     var id: String?,
     @Column(name = "title", nullable = false)
-    var title: String,
+    var title: String?,
     @Column(name = "rank")
     var rank: Int?,
     @Column(name = "year")

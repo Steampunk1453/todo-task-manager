@@ -12,7 +12,7 @@ data class Item(
     @JsonProperty("id")
     val id: String?,
     @JsonProperty("title")
-    val title: String,
+    val title: String?,
     @JsonProperty("rank")
     val rank: String?,
     @JsonProperty("year")

@@ -8,17 +8,19 @@ private const val PATTERN_ALL_AFTER_LAST_DOT = ".[^.]*$"
 private const val APPLE_TV =  "Apple TV+"
 
 data class TitleDTO(
-    val title: String,
+    val id: String?,
+    val title: String?,
     val type: Type,
-    val genres: List<String>?,
+    val genres: String?,
     val platform: String?,
     val website: String?
 )
 
 fun TitleInfo.toDto(): TitleDTO = TitleDTO(
+    id = id,
     title = title,
     type = Type.fromString(type.toString()),
-    genres = genres?.split(","),
+    genres = genres,
     platform = if (website?.isNotEmpty() == true) getPlatformFromUrl(website!!) else null,
     website = website
 )
