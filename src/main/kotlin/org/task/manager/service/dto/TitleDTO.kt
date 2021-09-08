@@ -10,6 +10,7 @@ private const val APPLE_TV =  "Apple TV+"
 data class TitleDTO(
     val id: String?,
     val title: String?,
+    val rank: Int?,
     val type: Type,
     val genres: String?,
     val platform: String?,
@@ -19,6 +20,7 @@ data class TitleDTO(
 fun TitleInfo.toDto(): TitleDTO = TitleDTO(
     id = id,
     title = title,
+    rank = rank,
     type = Type.fromString(type.toString()),
     genres = genres,
     platform = if (website?.isNotEmpty() == true) getPlatformFromUrl(website!!) else null,
