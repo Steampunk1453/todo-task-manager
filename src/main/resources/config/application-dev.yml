@@ -129,6 +129,6 @@ jhipster:
 audiovisual:
   host: https://imdb-api.com/en/API
   api-key:
-  limit-size: 20
+  size-limit: 20
   filter-movies: MostPopularMovies
   filter-shows: MostPopularTVs
