@@ -101,10 +101,16 @@ class TitleResource(
         return titleRepository.findAll()
     }
 
-    @GetMapping("/titles/info/{filter}")
-     fun getAllTitlesInfo(@PathVariable filter: String): List<TitleDTO> {
+    @GetMapping("/titles/info")
+    fun getAllTitlesInfo(): List<TitleDTO> {
         log.debug("REST request to get all Titles Info")
-        return titleClientService.getTitles(filter)
+        return titleClientService.getTitles()
+    }
+
+    @GetMapping("/titles/info/{filter}")
+     fun getAllTitlesInfoByFilter(@PathVariable filter: String): List<TitleDTO> {
+        log.debug("REST request to get all Titles Info filtered")
+        return titleClientService.getTitlesByFilter(filter)
     }
 
     /**

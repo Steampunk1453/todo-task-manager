@@ -19,8 +19,8 @@ private const val FILTER_BY_EXTERNAL_SITES = "ExternalSites"
 class TitleClientService(private val titleClient: TitleClient,
                          private val titleInfoRepository: TitleInfoRepository) {
 
-    @Value("\${audiovisual.limit-size}")
-    private lateinit var limitSize: String
+    @Value("\${audiovisual.size-limit}")
+    private lateinit var sizeLimit: String
 
     @Value("\${audiovisual.filter-movies}")
     private lateinit var movies: String
@@ -37,7 +37,6 @@ class TitleClientService(private val titleClient: TitleClient,
      */
     @Scheduled(cron = "0 00 08 * * ?")
     fun saveTitles() {
-        titleInfoRepository.deleteAll()
         saveTitlesInfo(movies)
         saveTitlesInfo(shows)
     }
@@ -45,21 +44,26 @@ class TitleClientService(private val titleClient: TitleClient,
     fun saveTitlesInfo(filter: String) {
         try {
             val items = titleClient.getItems(filter).items
-            val titles = items.take(limitSize.toInt())
+            val titles = items.take(sizeLimit.toInt())
                 .map { i -> titleClient.getItemInfo(FILTER_BY_TITLE, i.id).toEntity()
                     .apply {
                         rank = i.rank?.toInt()
                         website = titleClient.getItemInfo(FILTER_BY_EXTERNAL_SITES, i.id).officialWebsite
                     }
                 }
+            titleInfoRepository.deleteAll()
             titleInfoRepository.saveAll(titles)
         } catch (ex: Exception) {
             log.error("Error retrieving title info: ", ex)
         }
     }
 
-    fun getTitles(type: String): List<TitleDTO> {
-        return titleInfoRepository.findAllByType(type).map { t -> t.toDto() }
+    fun getTitles(): List<TitleDTO> {
+        return titleInfoRepository.findAll().map { t -> t.toDto() }
+    }
+
+    fun getTitlesByFilter(filter: String): List<TitleDTO> {
+        return titleInfoRepository.findAllByType(filter).map { t -> t.toDto() }
     }
 
 }
