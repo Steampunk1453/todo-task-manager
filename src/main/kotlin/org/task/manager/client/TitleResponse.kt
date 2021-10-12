@@ -1,4 +1,4 @@
-package org.task.manager.web.rest.dto
+package org.task.manager.client
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.task.manager.domain.TitleInfo

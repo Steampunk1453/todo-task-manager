@@ -9,7 +9,7 @@ import org.task.manager.client.TitleClient
 import org.task.manager.repository.TitleInfoRepository
 import org.task.manager.service.dto.TitleDTO
 import org.task.manager.service.dto.toDto
-import org.task.manager.web.rest.dto.toEntity
+import org.task.manager.client.toEntity
 
 private const val FILTER_BY_TITLE = "Title"
 private const val FILTER_BY_EXTERNAL_SITES = "ExternalSites"
