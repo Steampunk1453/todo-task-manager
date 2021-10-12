@@ -1,7 +1,5 @@
 package org.task.manager.web.rest
 
-import javax.persistence.EntityManager
-import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.Matchers.hasItem
 import org.junit.jupiter.api.BeforeEach
@@ -26,7 +24,10 @@ import org.springframework.validation.Validator
 import org.task.manager.ToDoTaskManagerApp
 import org.task.manager.domain.Title
 import org.task.manager.repository.TitleRepository
+import org.task.manager.service.TitleClientService
 import org.task.manager.web.rest.errors.ExceptionTranslator
+import javax.persistence.EntityManager
+import kotlin.test.assertNotNull
 
 /**
  * Integration tests for the [TitleResource] REST controller.
@@ -38,6 +39,9 @@ class TitleResourceIT {
 
     @Autowired
     private lateinit var titleRepository: TitleRepository
+
+    @Autowired
+    private lateinit var titleClientService: TitleClientService
 
     @Autowired
     private lateinit var jacksonMessageConverter: MappingJackson2HttpMessageConverter
@@ -58,10 +62,11 @@ class TitleResourceIT {
 
     private lateinit var title: Title
 
+
     @BeforeEach
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        val titleResource = TitleResource(titleRepository)
+        val titleResource = TitleResource(titleRepository, titleClientService)
         this.restTitleMockMvc = MockMvcBuilders.standaloneSetup(titleResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -72,7 +77,7 @@ class TitleResourceIT {
 
     @BeforeEach
     fun initTest() {
-        title = createEntity(em)
+        title = createEntity()
     }
 
     @Test
@@ -146,6 +151,19 @@ class TitleResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(title.id?.toInt())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+    }
+
+    @Test
+    @Transactional
+    fun getAllTitlesInfo() {
+        val filter = "TVSeries"
+        assertNotNull(filter)
+        titleClientService.saveTitles()
+
+        restTitleMockMvc.perform(get("/api/titles/info/{filter}", filter))
+            .andExpect(status().isOk)
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].type").value(hasItem("TV_SHOW")))
     }
 
     @Test
@@ -254,24 +272,9 @@ class TitleResourceIT {
          * if they test an entity which requires the current entity.
          */
         @JvmStatic
-        fun createEntity(em: EntityManager): Title {
+        fun createEntity(): Title {
             val title = Title(
                 name = DEFAULT_NAME
-            )
-
-            return title
-        }
-
-        /**
-         * Create an updated entity for this test.
-         *
-         * This is a static method, as tests for other entities might also need it,
-         * if they test an entity which requires the current entity.
-         */
-        @JvmStatic
-        fun createUpdatedEntity(em: EntityManager): Title {
-            val title = Title(
-                name = UPDATED_NAME
             )
 
             return title

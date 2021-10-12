@@ -115,3 +115,10 @@ jhipster:
 # ===================================================================
 
 # application:
+
+audiovisual:
+  host: https://imdb-api.com/en/API
+  api-key:
+  size-limit: 2
+  filter-movies: MostPopularMovies
+  filter-shows: MostPopularTVs

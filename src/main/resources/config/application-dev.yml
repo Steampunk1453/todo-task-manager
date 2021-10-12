@@ -123,3 +123,12 @@ jhipster:
 # ===================================================================
 
 # application:
+
+# Audiovisual Api
+
+audiovisual:
+  host: https://imdb-api.com/en/API
+  api-key:
+  size-limit: 20
+  filter-movies: MostPopularMovies
+  filter-shows: MostPopularTVs

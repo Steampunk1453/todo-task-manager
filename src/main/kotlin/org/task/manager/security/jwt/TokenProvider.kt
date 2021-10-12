@@ -3,6 +3,7 @@ package org.task.manager.security.jwt
 import io.github.jhipster.config.JHipsterProperties
 import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.Jwts.parser
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
@@ -69,7 +70,7 @@ class TokenProvider(private val jHipsterProperties: JHipsterProperties) {
     }
 
     fun getAuthentication(token: String): Authentication {
-        val claims = Jwts.parser()
+        val claims = parser()
             .setSigningKey(key)
             .parseClaimsJws(token)
             .body
@@ -84,7 +85,7 @@ class TokenProvider(private val jHipsterProperties: JHipsterProperties) {
 
     fun validateToken(authToken: String): Boolean {
         try {
-            Jwts.parser().setSigningKey(key).parseClaimsJws(authToken)
+            parser().setSigningKey(key).parseClaimsJws(authToken)
             return true
         } catch (e: JwtException) {
             log.info("Invalid JWT token.")

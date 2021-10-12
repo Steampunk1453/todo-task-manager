@@ -72,7 +72,7 @@ class GenreResourceIT {
 
     @BeforeEach
     fun initTest() {
-        genre = createEntity(em)
+        genre = createEntity()
     }
 
     @Test
@@ -262,7 +262,7 @@ class GenreResourceIT {
          * if they test an entity which requires the current entity.
          */
         @JvmStatic
-        fun createEntity(em: EntityManager): Genre {
+        fun createEntity(): Genre {
             val genre = Genre(
                 name = DEFAULT_NAME,
                 literary = DEFAULT_LITERARY
@@ -278,7 +278,7 @@ class GenreResourceIT {
          * if they test an entity which requires the current entity.
          */
         @JvmStatic
-        fun createUpdatedEntity(em: EntityManager): Genre {
+        fun createUpdatedEntity(): Genre {
             val genre = Genre(
                 name = UPDATED_NAME,
                 literary = UPDATED_LITERARY

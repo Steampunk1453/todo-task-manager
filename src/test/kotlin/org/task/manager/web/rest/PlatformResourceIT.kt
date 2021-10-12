@@ -72,7 +72,7 @@ class PlatformResourceIT {
 
     @BeforeEach
     fun initTest() {
-        platform = createEntity(em)
+        platform = createEntity()
     }
 
     @Test
@@ -281,7 +281,7 @@ class PlatformResourceIT {
          * if they test an entity which requires the current entity.
          */
         @JvmStatic
-        fun createEntity(em: EntityManager): Platform {
+        fun createEntity(): Platform {
             val platform = Platform(
                 name = DEFAULT_NAME,
                 url = DEFAULT_URL
@@ -297,7 +297,7 @@ class PlatformResourceIT {
          * if they test an entity which requires the current entity.
          */
         @JvmStatic
-        fun createUpdatedEntity(em: EntityManager): Platform {
+        fun createUpdatedEntity(): Platform {
             val platform = Platform(
                 name = UPDATED_NAME,
                 url = UPDATED_URL
