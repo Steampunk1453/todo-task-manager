@@ -128,7 +128,14 @@ jhipster:
 
 audiovisual:
   host: https://imdb-api.com/en/API
-  api-key:
-  size-limit: 20
+  api-key: value
+  size-limit: 2
   filter-movies: MostPopularMovies
   filter-shows: MostPopularTVs
+
+proxy:
+  server:
+    host: value
+    port: 80
+    user: value
+    password: value
