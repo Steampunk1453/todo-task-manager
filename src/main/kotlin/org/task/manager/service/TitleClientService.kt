@@ -16,8 +16,10 @@ private const val FILTER_BY_EXTERNAL_SITES = "ExternalSites"
 
 @Service
 @Transactional
-class TitleClientService(private val titleClient: TitleClient,
-                         private val titleInfoRepository: TitleInfoRepository) {
+class TitleClientService(
+    private val titleClient: TitleClient,
+    private val titleInfoRepository: TitleInfoRepository
+) {
 
     @Value("\${audiovisual.size-limit}")
     private lateinit var sizeLimit: String
@@ -45,11 +47,12 @@ class TitleClientService(private val titleClient: TitleClient,
         try {
             val items = titleClient.getItems(filter).items
             val titles = items.take(sizeLimit.toInt())
-                .map { i -> titleClient.getItemInfo(FILTER_BY_TITLE, i.id).toEntity()
-                    .apply {
-                        rank = i.rank?.toInt()
-                        website = titleClient.getItemInfo(FILTER_BY_EXTERNAL_SITES, i.id).officialWebsite
-                    }
+                .map { i ->
+                    titleClient.getItemInfo(FILTER_BY_TITLE, i.id).toEntity()
+                        .apply {
+                            rank = i.rank?.toInt()
+                            website = titleClient.getItemInfo(FILTER_BY_EXTERNAL_SITES, i.id).officialWebsite
+                        }
                 }
             titleInfoRepository.deleteAll()
             titleInfoRepository.saveAll(titles)
