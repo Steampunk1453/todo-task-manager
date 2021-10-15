@@ -35,9 +35,9 @@ class TitleClientService(
     /**
      * Save titles once every day
      *
-     * This is scheduled to get fired every day, at 08:00 (am) in the system.
+     * This is scheduled to get fired every day, at 07:05 (am) in the system.
      */
-    @Scheduled(cron = "0 00 08 * * ?")
+    @Scheduled(cron = "0 05 07 * * ?")
     fun saveTitles() {
         saveTitlesInfo(movies)
         saveTitlesInfo(shows)
