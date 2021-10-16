@@ -39,6 +39,7 @@ class TitleClientService(
      */
     @Scheduled(cron = "0 05 07 * * ?")
     fun saveTitles() {
+        titleInfoRepository.deleteAll()
         saveTitlesInfo(movies)
         saveTitlesInfo(shows)
     }
@@ -54,7 +55,6 @@ class TitleClientService(
                             website = titleClient.getItemInfo(FILTER_BY_EXTERNAL_SITES, i.id).officialWebsite
                         }
                 }
-            titleInfoRepository.deleteAll()
             titleInfoRepository.saveAll(titles)
         } catch (ex: Exception) {
             log.error("Error retrieving title info: ", ex)
